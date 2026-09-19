@@ -12,6 +12,10 @@ class NotificationService {
         return this.repo.findAll();
     }
 
+    listByTicket(ticketId) {
+        return this.repo.findByTicketId(ticketId);
+    }
+
     create(type, message, ticketId) {
         const notification = {
             id: uuidv4(),

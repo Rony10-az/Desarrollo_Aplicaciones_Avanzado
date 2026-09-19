@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": ["database/*.json"]
+  },
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^18.0.1",

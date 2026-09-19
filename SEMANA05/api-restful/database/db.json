@@ -1,5 +1,124 @@
 {
-  "tickets": [],
+  "tickets": [
+    {
+      "id": "b5a15bc4-31da-443e-b31b-692d857bd905",
+      "title": "Prueba de notificación",
+      "description": "Ticket de prueba para verificar el envío de correo",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": "rony"
+    },
+    {
+      "id": "6524f4d7-96ff-459a-9c25-064d3ce02fff",
+      "title": "Diagnostico assign",
+      "description": "probando put assign",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": "Rony"
+    },
+    {
+      "id": "0b922119-03af-4155-8e5c-0bc40e116e6e",
+      "title": "Segunda Prueba de notificacion",
+      "description": "Ticket para la segunda prueba para verificacion de envio de correo",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": "Rony Quintana"
+    },
+    {
+      "id": "e4bfff77-7d3c-4bcb-92ab-77ebb5349303",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "c545a678-43dd-4aca-a4c5-5182db748774",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": "Rony Quintana"
+    },
+    {
+      "id": "85275693-c5ed-4daa-b371-5ec0752e1368",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "f8293061-5f6a-4751-a23c-8d5690fa0620",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "73c511f6-3651-4133-a0d7-17a43a658245",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "a678845d-2d91-42c9-816e-6e510544962b",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "75ac0ca8-2704-4838-a21b-52de2124fa36",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "f88eb7fb-148f-40bd-a5db-681cdc520a04",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "89eb95d1-c0c4-49fc-aba5-2f0368ee87bf",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "3effcf76-be3e-46e4-811f-59523828a4b0",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "8ee07cd1-4faf-4363-a8ee-a35b6f990c37",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "144ca588-2ef8-4566-98f2-5652bb8a5294",
+      "title": "Verifiacion de envio del proyecto previsto",
+      "description": " Verificar que el sistema con el envio para el profesor ",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    }
+  ],
   "notifications": [
     {
       "id": "668031a8-3f85-460f-a08a-149ea1a3b5ad",
@@ -21,6 +140,146 @@
       "message": "El ticket 090d9508-1834-488b-badb-4ef36ba90425 cambió a asignado",
       "status": "pending",
       "ticketId": "090d9508-1834-488b-badb-4ef36ba90425"
+    },
+    {
+      "id": "ef303ce4-3b66-484c-a106-d00f409abb5d",
+      "type": "email",
+      "message": "Nuevo ticket creado: Prueba de notificación",
+      "status": "pending",
+      "ticketId": "b5a15bc4-31da-443e-b31b-692d857bd905"
+    },
+    {
+      "id": "e001ecb3-6c13-49fc-8464-b472d683dd12",
+      "type": "email",
+      "message": "El ticket b5a15bc4-31da-443e-b31b-692d857bd905 fue asignado a rony",
+      "status": "pending",
+      "ticketId": "b5a15bc4-31da-443e-b31b-692d857bd905"
+    },
+    {
+      "id": "b9c0128e-9e01-4bd0-a490-b0b11c985060",
+      "type": "email",
+      "message": "Nuevo ticket creado: Diagnostico assign",
+      "status": "pending",
+      "ticketId": "6524f4d7-96ff-459a-9c25-064d3ce02fff"
+    },
+    {
+      "id": "0bbe04bf-6904-4243-8c79-89c7e39f2b82",
+      "type": "email",
+      "message": "El ticket 6524f4d7-96ff-459a-9c25-064d3ce02fff fue asignado a Rony",
+      "status": "pending",
+      "ticketId": "6524f4d7-96ff-459a-9c25-064d3ce02fff"
+    },
+    {
+      "id": "f650e93e-fd0c-4e13-a975-6c3803392feb",
+      "type": "email",
+      "message": "Nuevo ticket creado: Segunda Prueba de notificacion",
+      "status": "pending",
+      "ticketId": "0b922119-03af-4155-8e5c-0bc40e116e6e"
+    },
+    {
+      "id": "1005451e-77b6-4c1c-a5e0-15734fb3bba9",
+      "type": "email",
+      "message": "El ticket 0b922119-03af-4155-8e5c-0bc40e116e6e fue asignado a Rony Quintana",
+      "status": "pending",
+      "ticketId": "0b922119-03af-4155-8e5c-0bc40e116e6e"
+    },
+    {
+      "id": "3d7ab180-9655-4321-b3f8-cdf210ab0f42",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "e4bfff77-7d3c-4bcb-92ab-77ebb5349303"
+    },
+    {
+      "id": "11a5dc2f-3b5a-45e8-b874-dc9b52f99191",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "c545a678-43dd-4aca-a4c5-5182db748774"
+    },
+    {
+      "id": "02150fb9-1635-4992-a568-eaf5148d6a2b",
+      "type": "email",
+      "message": "El ticket c545a678-43dd-4aca-a4c5-5182db748774 fue asignado a Rony Quintana",
+      "status": "pending",
+      "ticketId": "c545a678-43dd-4aca-a4c5-5182db748774"
+    },
+    {
+      "id": "58edc929-fad9-4e3f-aef8-fbe894f2be8f",
+      "type": "email",
+      "message": "Nuevo ticket creado: undefined",
+      "status": "pending",
+      "ticketId": "85275693-c5ed-4daa-b371-5ec0752e1368"
+    },
+    {
+      "id": "c8fb404c-15fe-41f5-a2e9-4c893525998c",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "f8293061-5f6a-4751-a23c-8d5690fa0620"
+    },
+    {
+      "id": "addc048d-e37b-42ef-931b-6ba6cc77fc2b",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "73c511f6-3651-4133-a0d7-17a43a658245"
+    },
+    {
+      "id": "04b6e464-8c1d-48ea-995a-37ae8520044b",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "a678845d-2d91-42c9-816e-6e510544962b"
+    },
+    {
+      "id": "e5127c5d-2c79-4b06-91d4-e153d842a28a",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "75ac0ca8-2704-4838-a21b-52de2124fa36"
+    },
+    {
+      "id": "0060b354-a6f0-4eae-b428-78d634bda552",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "f88eb7fb-148f-40bd-a5db-681cdc520a04"
+    },
+    {
+      "id": "5906b7cb-ce3d-43f0-a4b2-8382738d049b",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "89eb95d1-c0c4-49fc-aba5-2f0368ee87bf"
+    },
+    {
+      "id": "55b52d40-9f0b-490f-b55e-2bdf72e230cb",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "3effcf76-be3e-46e4-811f-59523828a4b0"
+    },
+    {
+      "id": "4d7ac6c8-47a2-4e8f-ba9b-b93e52fa6f57",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "8ee07cd1-4faf-4363-a8ee-a35b6f990c37"
+    },
+    {
+      "id": "5c1f1322-0ebc-427a-a029-d6b6ff77f110",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "144ca588-2ef8-4566-98f2-5652bb8a5294"
+    },
+    {
+      "id": "e0b29fff-d5f0-4bfe-8401-38b334089b89",
+      "type": "email",
+      "message": "Nuevo ticket creado: Verifiacion de envio del proyecto previsto",
+      "status": "pending",
+      "ticketId": "5dcc70ae-7b3f-4cc4-9ef4-198d23837b97"
     }
   ]
 }
