@@ -11,7 +11,10 @@ class PostRepository {
         return await Post.find({ user: userId }).populate("user");
     }
     async update(postId, postData) {
-        return await Post.findByIdAndUpdate(postId, postData, { new: true });
+        return await Post.findByIdAndUpdate(postId, postData, {
+            new: true,
+            runValidators: true
+        }).populate("user");
         // { new: true } => devuelve el post actualizado en vez del antiguo
     }
     async delete(postId) {

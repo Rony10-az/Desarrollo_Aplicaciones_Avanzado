@@ -1,8 +1,37 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
-    title: String,
-    content: String,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    title: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 30
+    },
+    content: {
+        type: String,
+        required: true,
+        minlength: 10
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+
+    hashtags: {
+        type: [String],
+        default: []
+    },
+    imageUrl: {
+        type: String
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date
+    }
 });
+
 export default mongoose.model("Post", postSchema);

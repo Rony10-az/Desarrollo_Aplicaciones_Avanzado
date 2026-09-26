@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= formTitle %>
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="topbar page-width">
+        <a href="/" class="brand"><span class="brand-mark">S</span> Social Media</a>
+        <a href="/posts" class="text-link">Volver al muro <span aria-hidden="true">&#8594;</span></a>
+    </header>
+    <main class="page-width form-page">
+        <p class="eyebrow">Comparte con la comunidad</p>
+        <h1>
+            <%= formTitle %>
+        </h1>
+        <% if (typeof error !=="undefined" && error) { %>
+            <p class="red-text">
+                <%= error %>
+            </p>
+            <% } %>
+                <form class="post-form" action="<%= formAction %>" method="post">
+                    <div class="input-field">
+                        <label for="userId">¿Quién publica?</label>
+                        <select id="userId" name="userId" required>
+                            <option value="" disabled <%=selectedUserId ? "" : "selected" %>>Selecciona un usuario
+                            </option>
+                            <% (users || []).forEach((user)=> { %>
+                                <option value="<%= user._id %>" <%=String(selectedUserId || "" )===String(user._id)
+                                    ? "selected" : "" %>>
+                                    <%= user.name || user.email %>
+                                        <%= user.lastName ? ` ${user.lastName}` : "" %> · <%= user.email %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                    <div class="input-field"><input id="title" name="title" minlength="5" maxlength="30"
+                            value="<%= post.title || "" %>" required><label class="active" for="title">Título</label>
+                    </div>
+                    <div class="input-field"><textarea id="content" name="content" class="materialize-textarea"
+                            minlength="10" required><%= post.content || "" %></textarea><label class="active"
+                            for="content">Contenido</label></div>
+                    <div class="input-field"><input id="hashtags" name="hashtags"
+                            value="<%= (post.hashtags || []).join(" , ") %>"><label class="active"
+                            for="hashtags">Hashtags separados por coma</label></div>
+                    <div class="input-field"><input id="imageUrl" name="imageUrl" type="url"
+                            value="<%= post.imageUrl || "" %>"><label class="active" for="imageUrl">URL de
+                            imagen</label></div>
+                    <button class="button button-primary" type="submit">Guardar publicación <span
+                            aria-hidden="true">&#8594;</span></button>
+                    <a href="/posts" class="button button-secondary">Cancelar</a>
+                </form>
+    </main>
+</body>
+
+</html>

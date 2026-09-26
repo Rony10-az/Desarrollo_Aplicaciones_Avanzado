@@ -1,26 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Social Media - Home</title>
-  <!-- Materialize CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
 </head>
-<body class="container center-align" style="margin-top: 80px;">
 
-  <h2 class="blue-text text-darken-2">Bienvenido a Social Media 🚀</h2>
-  <p class="flow-text">Conéctate, comparte y explora publicaciones</p>
+<body>
+    <header class="topbar page-width">
+        <a href="/" class="brand"><span class="brand-mark">S</span> Social Media</a>
+        <a href="/posts" class="text-link">Ver publicaciones <span aria-hidden="true">&#8594;</span></a>
+    </header>
 
-  <div class="row" style="margin-top: 50px;">
-    <div class="col s12 m12">
-      <a href="/posts/" class="btn-large waves-effect waves-light blue darken-2">
-        <i class="material-icons left">image</i> Ver Pots
-      </a>
-    </div> 
-  </div>
+    <main>
+        <section class="welcome page-width">
+            <div class="welcome-copy">
+                <p class="eyebrow">Tu espacio para compartir</p>
+                <h1>Ideas que merecen<br><em>ser vistas.</em></h1>
+                <p class="lead">Descubre lo que la comunidad está creando y deja tu propia historia en el muro.</p>
+                <div class="welcome-actions">
+                    <a href="/posts" class="button button-primary">Explorar publicaciones <span
+                            aria-hidden="true">&#8594;</span></a>
+                    <a href="/posts/new" class="button button-secondary">Crear un post</a>
+                </div>
+            </div>
+            <div class="welcome-art" aria-hidden="true">
+                <div class="art-note note-one">Comparte lo que piensas <span>✦</span></div>
+                <div class="art-note note-two">#comunidad</div>
+                <div class="art-circle">S</div>
+                <div class="art-line"></div>
+            </div>
+        </section>
 
-  <!-- Materialize JS + icons -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <section class="preview-section page-width">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Lo más reciente</p>
+                    <h2>Publicaciones de la comunidad</h2>
+                </div>
+                <a href="/posts" class="text-link">Ver todas <span aria-hidden="true">&#8594;</span></a>
+            </div>
+            <% if (!posts || !posts.length) { %>
+                <div class="empty-state">Todavía no hay publicaciones. Sé la primera persona en compartir algo.</div>
+                <% } else { %>
+                    <div class="post-grid preview-grid">
+                        <% posts.forEach((post)=> { %>
+                            <article class="post-card">
+                                <% if (post.imageUrl) { %><img class="post-image" src="<%= post.imageUrl %>"
+                                        alt="Imagen de <%= post.title %>">
+                                    <% } else { %>
+                                        <div class="post-image image-placeholder"><span>✦</span></div>
+                                        <% } %>
+                                            <div class="post-body">
+                                                <p class="post-meta">
+                                                    <%= post.user ? (post.user.name || post.user.email) : "Comunidad" %>
+                                                </p>
+                                                <h3>
+                                                    <%= post.title %>
+                                                </h3>
+                                                <p class="post-excerpt">
+                                                    <%= post.content %>
+                                                </p>
+                                                <div class="tag-row">
+                                                    <% (post.hashtags || []).slice(0, 3).forEach((tag)=> { %><span>#<%=
+                                                                tag %></span>
+                                                        <% }) %>
+                                                </div>
+                                            </div>
+                            </article>
+                            <% }) %>
+                    </div>
+                    <% } %>
+        </section>
+    </main>
 </body>
+
 </html>

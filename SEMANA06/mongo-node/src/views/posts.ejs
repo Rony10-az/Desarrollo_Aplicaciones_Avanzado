@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones | Social Media</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="topbar page-width">
+        <a href="/" class="brand"><span class="brand-mark">S</span> Social Media</a>
+        <a href="/posts/new" class="button button-primary">Nuevo post <span aria-hidden="true">+</span></a>
+    </header>
+
+    <main class="page-width posts-page">
+        <section class="listing-header">
+            <div>
+                <p class="eyebrow">El muro de la comunidad</p>
+                <h1>Todo lo que<br><em>está pasando.</em></h1>
+            </div>
+            <p class="listing-intro">Explora las ideas, historias y conversaciones que comparten todos los usuarios.</p>
+        </section>
+
+        <section class="post-grid">
+            <% if (!posts.length) { %>
+                <div class="empty-state">Todavía no hay publicaciones. Crea la primera.</div>
+                <% } %>
+                    <% posts.forEach((post)=> { %>
+                        <article class="post-card">
+                            <% if (post.imageUrl) { %><img class="post-image" src="<%= post.imageUrl %>"
+                                    alt="Imagen de <%= post.title %>">
+                                <% } else { %>
+                                    <div class="post-image image-placeholder"><span>✦</span></div>
+                                    <% } %>
+                                        <div class="post-body">
+                                            <div class="post-author"><span class="avatar">
+                                                    <%= post.user && post.user.name ?
+                                                        post.user.name.charAt(0).toUpperCase() : "S" %>
+                                                </span><span><strong>
+                                                        <%= post.user ? `${post.user.name || "" } ${post.user.lastName
+                                                            || "" }`.trim() || post.user.email : "Comunidad" %>
+                                                    </strong><small>
+                                                        <%= new Date(post.createdAt).toLocaleDateString("es-PE") %>
+                                                    </small></span></div>
+                                            <h2>
+                                                <%= post.title %>
+                                            </h2>
+                                            <p class="post-excerpt">
+                                                <%= post.content %>
+                                            </p>
+                                            <div class="tag-row">
+                                                <% (post.hashtags || []).forEach((tag)=> { %><span>#<%= tag %></span>
+                                                    <% }) %>
+                                            </div>
+                                        </div>
+                                        <div class="post-actions"><a href="/posts/<%= post._id %>/edit"
+                                                class="icon-button" title="Editar publicación">&#9998;</a>
+                                            <form action="/posts/<%= post._id %>/delete" method="post"><button
+                                                    class="icon-button danger" type="submit"
+                                                    title="Eliminar publicación">&#215;</button></form>
+                                        </div>
+                        </article>
+                        <% }) %>
+        </section>
+    </main>
+</body>
+
+</html>
