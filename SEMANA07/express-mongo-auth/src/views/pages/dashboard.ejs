@@ -1,0 +1,87 @@
+<%- include('../partials/head') %>
+<%- include('../partials/welcome-intro', { theme: 'user' }) %>
+<div class="container section dash">
+
+    <%- include('../partials/hero3d', { theme: 'user' }) %>
+
+    <!-- Indicadores personales -->
+    <div class="kpi-grid reveal" id="kpis"></div>
+
+    <div class="chart-grid">
+        <!-- Perfil -->
+        <article class="card chart-card accent-2 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Tu perfil</span>
+                        <p class="chart-sub">Completa tus datos para aprovechar tu cuenta</p>
+                    </div>
+                    <span class="real-chip">Tus datos</span>
+                </header>
+                <div class="profile-progress">
+                    <svg viewBox="0 0 120 120" class="ring" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#e0a26b"/>
+                                <stop offset="100%" stop-color="#b85f2a"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="52" class="ring-track"></circle>
+                        <circle cx="60" cy="60" r="52" class="ring-value" id="ring-value"></circle>
+                    </svg>
+                    <div class="ring-label"><b id="ring-pct">0%</b><span>completo</span></div>
+                </div>
+                <ul class="steps" id="steps"></ul>
+                <a href="/profile" class="btn brand waves-effect full-width"><i class="material-icons left">edit</i>Editar mi cuenta</a>
+            </div>
+        </article>
+
+        <!-- Actividad -->
+        <article class="card chart-card accent-1 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Tu actividad</span>
+                        <p class="chart-sub">Inicios de sesión · últimos 7 días</p>
+                    </div>
+                    <span class="sim-chip">Datos simulados</span>
+                </header>
+                <div class="chart-box"><canvas id="chart-activity" aria-label="Inicios de sesión de los últimos 7 días"></canvas></div>
+                <details class="chart-table"><summary>Ver datos</summary><div id="table-activity"></div></details>
+            </div>
+        </article>
+
+        <!-- Datos -->
+        <article class="card chart-card accent-3 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Tus datos</span>
+                        <p class="chart-sub">Fuente: GET /api/users/me</p>
+                    </div>
+                </header>
+                <ul class="collection" id="details"></ul>
+            </div>
+        </article>
+
+        <!-- Accesos rápidos -->
+        <article class="card chart-card accent-4 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Accesos rápidos</span>
+                        <p class="chart-sub">Lo que puedes hacer desde aquí</p>
+                    </div>
+                </header>
+                <div class="quick-grid">
+                    <a href="/profile" class="quick q1"><i class="material-icons">manage_accounts</i><b>Mi cuenta</b><span>Edita tus datos y contraseña</span></a>
+                    <a href="/admin/dashboard" class="quick q3 admin-only"><i class="material-icons">admin_panel_settings</i><b>Administración</b><span>Panel de usuarios y métricas</span></a>
+                    <a href="/" class="quick q4"><i class="material-icons">home</i><b>Inicio</b><span>Volver a la portada</span></a>
+                    <a href="#!" class="quick q2 btn-logout"><i class="material-icons">exit_to_app</i><b>Cerrar sesión</b><span>Termina tu sesión de forma segura</span></a>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<%- include('../partials/footer', { scripts: ['welcome.js', 'dashboard.js'] }) %>

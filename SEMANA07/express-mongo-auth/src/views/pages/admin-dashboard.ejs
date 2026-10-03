@@ -1,0 +1,104 @@
+<%- include('../partials/head') %>
+<%- include('../partials/welcome-intro', { theme: 'admin' }) %>
+<div class="container section dash admin">
+
+    <%- include('../partials/hero3d', { theme: 'admin' }) %>
+
+    <!-- Indicadores -->
+    <div class="kpi-grid reveal" id="kpis"></div>
+
+    <!-- Gráficos -->
+    <div class="chart-grid">
+        <article class="card chart-card chart-wide accent-1 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Tráfico del sitio</span>
+                        <p class="chart-sub">Páginas vistas y visitantes únicos · últimos 14 días</p>
+                    </div>
+                    <span class="sim-chip">Datos simulados</span>
+                </header>
+                <div class="chart-box tall"><canvas id="chart-traffic" aria-label="Páginas vistas y visitantes únicos por día"></canvas></div>
+                <details class="chart-table"><summary>Ver datos</summary><div id="table-traffic"></div></details>
+            </div>
+        </article>
+
+        <article class="card chart-card accent-1 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Vistas por página</span>
+                        <p class="chart-sub">Total de los últimos 14 días</p>
+                    </div>
+                    <span class="sim-chip">Datos simulados</span>
+                </header>
+                <div class="chart-box"><canvas id="chart-pages" aria-label="Vistas por página"></canvas></div>
+                <details class="chart-table"><summary>Ver datos</summary><div id="table-pages"></div></details>
+            </div>
+        </article>
+
+        <article class="card chart-card accent-4 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Registros de usuarios</span>
+                        <p class="chart-sub">Cuentas creadas por mes · últimos 6 meses</p>
+                    </div>
+                    <span class="real-chip">Datos reales</span>
+                </header>
+                <div class="chart-box"><canvas id="chart-signups" aria-label="Registros de usuarios por mes"></canvas></div>
+                <details class="chart-table"><summary>Ver datos</summary><div id="table-signups"></div></details>
+            </div>
+        </article>
+
+        <article class="card chart-card chart-wide accent-3 reveal">
+            <div class="card-content">
+                <header class="chart-header">
+                    <div>
+                        <span class="card-title">Dispositivos</span>
+                        <p class="chart-sub">Distribución de sesiones por tipo de dispositivo</p>
+                    </div>
+                    <span class="sim-chip">Datos simulados</span>
+                </header>
+                <div id="devices" class="device-meter"></div>
+            </div>
+        </article>
+    </div>
+
+    <!-- Usuarios -->
+    <div class="card accent-2 reveal">
+        <div class="card-content">
+            <div class="users-header">
+                <div>
+                    <span class="card-title">Usuarios registrados</span>
+                    <p class="chart-sub">Fuente: GET /api/users</p>
+                </div>
+                <div class="input-field users-search">
+                    <i class="material-icons prefix">search</i>
+                    <input id="search" type="text">
+                    <label for="search">Buscar por nombre, email o rol</label>
+                </div>
+            </div>
+            <table class="highlight responsive-table">
+                <thead>
+                    <tr><th></th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Roles</th><th>Fecha de registro</th><th></th></tr>
+                </thead>
+                <tbody id="users-body">
+                    <tr><td colspan="7"><div class="progress"><div class="indeterminate"></div></div></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: información del usuario -->
+<div id="user-modal" class="modal">
+    <div class="modal-content">
+        <div id="modal-body"></div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn-flat">Cerrar</a>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<%- include('../partials/footer', { scripts: ['welcome.js', 'admin-dashboard.js'] }) %>

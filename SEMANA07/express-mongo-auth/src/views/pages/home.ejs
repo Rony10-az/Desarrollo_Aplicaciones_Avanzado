@@ -1,0 +1,35 @@
+<%- include('../partials/head') %>
+<div class="role-grid">
+    <!-- Administrador -->
+    <a href="/signIn?role=admin" class="role-card role-admin" aria-label="Ingresar como administrador">
+        <div class="role-media">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80"
+                 alt="Pantalla con gráficos de analítica">
+            <span class="role-tag"><i class="material-icons">admin_panel_settings</i>Administrador</span>
+        </div>
+        <div class="role-caption">
+            <div>
+                <h5>¿Eres administrador?</h5>
+                <p>Gestiona usuarios y revisa los registros</p>
+            </div>
+            <span class="role-go">Ingresar <i class="material-icons">arrow_forward</i></span>
+        </div>
+    </a>
+
+    <!-- Usuario -->
+    <a href="/signIn?role=user" class="role-card role-user" aria-label="Ingresar como usuario">
+        <div class="role-media">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=80"
+                 alt="Personas trabajando juntas con laptops">
+            <span class="role-tag"><i class="material-icons">person</i>Usuario</span>
+        </div>
+        <div class="role-caption">
+            <div>
+                <h5>¿Eres usuario?</h5>
+                <p>Consulta y edita tus datos personales</p>
+            </div>
+            <span class="role-go">Ingresar <i class="material-icons">arrow_forward</i></span>
+        </div>
+    </a>
+</div>
+<%- include('../partials/footer', { script: 'home.js' }) %>

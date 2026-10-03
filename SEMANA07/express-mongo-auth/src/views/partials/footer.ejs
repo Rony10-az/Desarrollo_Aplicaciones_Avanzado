@@ -1,0 +1,48 @@
+</main>
+<% const footerLayout = typeof layout !== 'undefined' ? layout : 'default'; %>
+<% if (footerLayout !== 'home') { %>
+<footer class="page-footer site-footer <%= footerLayout === 'auth' ? 'compact' : '' %>">
+    <% if (footerLayout !== 'auth') { %>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 l5">
+                <h5 class="footer-brand"><i class="material-icons">lock</i>AuthApp</h5>
+                <p class="footer-text">
+                    Sistema de autenticación y autorización con roles <b>admin</b> y <b>user</b>,
+                    protegido con JSON Web Tokens.
+                </p>
+            </div>
+            <div class="col s6 l3">
+                <h6 class="footer-heading">Navegación</h6>
+                <ul class="footer-links">
+                    <li><a href="/">Inicio</a></li>
+                    <li class="auth-only"><a href="/dashboard">Dashboard</a></li>
+                    <li class="auth-only"><a href="/profile">Mi cuenta</a></li>
+                    <li class="admin-only"><a href="/admin/dashboard">Administración</a></li>
+                </ul>
+            </div>
+            <div class="col s6 l4">
+                <h6 class="footer-heading">Tecnologías</h6>
+                <div class="footer-tags">
+                    <span>Node.js</span><span>Express</span><span>MongoDB</span>
+                    <span>JWT</span><span>EJS</span><span>Materialize</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    <div class="footer-copyright">
+        <div class="container footer-bottom">
+            <span>© <%= new Date().getFullYear() %> AuthApp · Desarrollo de Aplicaciones Web Avanzado — Tecsup</span>
+            <span>Rony Quintana · Imágenes de <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span>
+        </div>
+    </div>
+</footer>
+<% } %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="/js/api.js"></script>
+<% const pageScripts = [].concat(typeof scripts !== 'undefined' ? scripts : [], typeof script !== 'undefined' ? script : []); %>
+<% pageScripts.forEach(s => { %><script src="/js/<%= s %>"></script>
+<% }) %>
+</body>
+</html>

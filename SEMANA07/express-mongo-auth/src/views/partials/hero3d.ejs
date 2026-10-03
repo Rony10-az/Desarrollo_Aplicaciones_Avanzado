@@ -1,0 +1,46 @@
+<%# Banner 3D compartido: tarjeta que se gira arrastrando (frente: bienvenida · reverso: sesión) %>
+<section class="hero3d theme-<%= theme %> reveal" id="hero3d">
+    <div class="hero3d-stage">
+        <div class="hero3d-card" id="hero3d-card" tabindex="0"
+             aria-label="Tarjeta de bienvenida. Arrastra o pulsa Enter para girarla.">
+
+            <!-- Frente -->
+            <div class="hero3d-face front">
+                <div class="h3-layer h3-avatar" id="hero-avatar"></div>
+                <div class="h3-layer h3-text">
+                    <span class="h3-kicker">
+                        <i class="material-icons" id="hero-icon"><%= theme === 'admin' ? 'admin_panel_settings' : 'wb_sunny' %></i>
+                        <span><%= theme === 'admin' ? 'Panel de administración' : 'Tu espacio personal' %></span>
+                    </span>
+                    <h4 id="hero-title">Bienvenido</h4>
+                    <p class="h3-msg" id="hero-msg"></p>
+                    <div id="hero-roles" class="h3-roles"></div>
+                </div>
+                <div class="h3-layer h3-chips">
+                    <span class="h3-chip"><i class="material-icons">today</i><span id="hero-date">—</span></span>
+                    <span class="h3-chip"><i class="material-icons">schedule</i><span id="hero-clock">—</span></span>
+                </div>
+            </div>
+
+            <!-- Reverso -->
+            <div class="hero3d-face back">
+                <div class="h3-layer h3-back-head">
+                    <span class="h3-kicker"><i class="material-icons">memory</i><span>Datos de la sesión</span></span>
+                    <span class="h3-status"><span class="dot"></span><span id="hero-api">Verificando API…</span></span>
+                </div>
+                <dl class="h3-layer h3-meta">
+                    <div><dt>Cuenta</dt><dd id="hero-email">—</dd></div>
+                    <div><dt>Roles</dt><dd id="hero-role-list">—</dd></div>
+                    <div><dt>Token emitido</dt><dd id="hero-iat">—</dd></div>
+                    <div><dt>Sesión expira en</dt><dd id="hero-expires">—</dd></div>
+                    <div><dt>Miembro desde</dt><dd id="hero-since">—</dd></div>
+                    <div><dt>Autenticación</dt><dd>JWT · Bearer</dd></div>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="hero3d-hint">
+        <i class="material-icons">360</i>Arrastra la tarjeta para girarla
+        <button type="button" class="hero3d-flip" id="hero3d-flip"><i class="material-icons">flip</i>Girar</button>
+    </div>
+</section>

@@ -1,0 +1,67 @@
+<%- include('../partials/head') %>
+<div class="container section">
+    <%- include('../partials/loader') %>
+    <div id="content" class="row hide">
+        <div class="col s12 m4">
+            <div class="card center-align">
+                <div class="card-content">
+                    <div id="avatar"></div>
+                    <h5 id="fullName"></h5>
+                    <p id="emailText" class="grey-text"></p>
+                    <div id="roles" class="section"></div>
+                    <p class="grey-text" id="memberSince"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m8">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title"><i class="material-icons left brand-text">manage_accounts</i>Mi cuenta</span>
+                    <form id="profile-form" novalidate>
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <input id="name" name="name" type="text" required>
+                                <label for="name">Nombres *</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="lastName" name="lastName" type="text" required>
+                                <label for="lastName">Apellidos *</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="phoneNumer" name="phoneNumer" type="tel" required>
+                                <label for="phoneNumer">Teléfono *</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="birthdate" name="birthdate" type="date" required>
+                                <label for="birthdate" class="active">Fecha de nacimiento *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="email" name="email" type="email" class="validate" required>
+                                <label for="email">Correo electrónico *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="adress" name="adress" type="text">
+                                <label for="adress">Dirección</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="url_profile" name="url_profile" type="url">
+                                <label for="url_profile">URL de foto de perfil</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="password" name="password" type="password" autocomplete="new-password">
+                                <label for="password">Nueva contraseña (opcional)</label>
+                                <span class="helper-text">Déjalo vacío para mantener la actual. Mín. 8 caracteres, una mayúscula, un dígito y un carácter especial (# $ % &amp; * @)</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn waves-effect waves-light brand">
+                            Guardar cambios <i class="material-icons right">save</i>
+                        </button>
+                        <button type="reset" class="btn-flat waves-effect" id="btn-reset">Descartar</button>
+                        <div class="progress hide"><div class="indeterminate"></div></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer', { script: 'profile.js' }) %>

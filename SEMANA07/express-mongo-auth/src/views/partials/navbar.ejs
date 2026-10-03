@@ -1,0 +1,21 @@
+<div class="navbar-fixed">
+    <nav class="brand-dark">
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo"><i class="material-icons left">lock</i>AuthApp</a>
+            <!-- Los visitantes eligen su rol (admin / user) en la página de inicio -->
+            <a href="#" data-target="mobile-nav" class="sidenav-trigger auth-only"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li class="auth-only <%= active === 'dashboard' ? 'active' : '' %>"><a href="/dashboard"><i class="material-icons left">dashboard</i>Dashboard</a></li>
+                <li class="admin-only <%= active === 'admin' ? 'active' : '' %>"><a href="/admin/dashboard"><i class="material-icons left">admin_panel_settings</i>Administración</a></li>
+                <li class="auth-only <%= active === 'profile' ? 'active' : '' %>"><a href="/profile"><i class="material-icons left">account_circle</i>Mi cuenta</a></li>
+                <li class="auth-only"><a href="#!" class="btn-logout"><i class="material-icons left">exit_to_app</i>Salir</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<ul class="sidenav" id="mobile-nav">
+    <li class="auth-only"><a href="/dashboard"><i class="material-icons">dashboard</i>Dashboard</a></li>
+    <li class="admin-only"><a href="/admin/dashboard"><i class="material-icons">admin_panel_settings</i>Administración</a></li>
+    <li class="auth-only"><a href="/profile"><i class="material-icons">account_circle</i>Mi cuenta</a></li>
+    <li class="auth-only"><a href="#!" class="btn-logout"><i class="material-icons">exit_to_app</i>Salir</a></li>
+</ul>

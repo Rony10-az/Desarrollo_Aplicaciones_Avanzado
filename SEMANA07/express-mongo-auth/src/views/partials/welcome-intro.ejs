@@ -1,0 +1,26 @@
+<%# Bienvenida a pantalla completa: se muestra una vez por inicio de sesión (clave = iat del JWT) %>
+<script>
+    document.documentElement.classList.add('dash-js');
+    try {
+        const t = sessionStorage.getItem('token');
+        const p = JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        if (sessionStorage.getItem('intro:' + p.iat) !== '1') document.documentElement.classList.add('intro-pending');
+    } catch (e) { /* sin token: el guard redirige */ }
+</script>
+<div class="welcome-intro theme-<%= theme %>" id="welcome-intro" role="dialog" aria-live="polite" aria-label="Bienvenida">
+    <div class="intro-orb o1"></div>
+    <div class="intro-orb o2"></div>
+    <div class="intro-center">
+        <div class="intro-badge">
+            <span class="intro-ring"></span>
+            <i class="material-icons"><%= theme === 'admin' ? 'admin_panel_settings' : 'waving_hand' %></i>
+        </div>
+        <p class="intro-kicker"><%= theme === 'admin' ? 'Acceso de administrador verificado' : 'Inicio de sesión exitoso' %></p>
+        <h2 class="intro-title">¡Bienvenido<span id="intro-name"></span>!</h2>
+        <p class="intro-sub">
+            <%= theme === 'admin' ? 'Cargando el panel de administración y las métricas del sistema…' : 'Preparando tu espacio personal…' %>
+        </p>
+        <div class="intro-progress"><span></span></div>
+    </div>
+    <button type="button" class="intro-skip" id="intro-skip">Saltar <i class="material-icons">keyboard_double_arrow_up</i></button>
+</div>

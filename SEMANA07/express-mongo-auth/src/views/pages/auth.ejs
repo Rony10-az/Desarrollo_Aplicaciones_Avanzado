@@ -1,0 +1,111 @@
+<%- include('../partials/head') %>
+<%
+    const visuals = {
+        admin: { img: 'photo-1551288049-bebda4e38f71', tag: 'Administrador', icon: 'admin_panel_settings' },
+        user:  { img: 'photo-1522202176988-66273c2fd55f', tag: 'Usuario', icon: 'person' },
+        none:  { img: 'photo-1497366216548-37526070297c', tag: 'AuthApp', icon: 'lock' }
+    };
+    const v = visuals[role || 'none'];
+%>
+<div class="auth-shell" data-mode="<%= mode %>" data-role="<%= role || '' %>">
+
+    <!-- Panel visual -->
+    <aside class="auth-visual role-<%= role || 'none' %>">
+        <img src="https://images.unsplash.com/<%= v.img %>?w=1200&q=80" alt="">
+        <div class="auth-visual-text">
+            <span class="auth-badge"><i class="material-icons"><%= v.icon %></i><%= v.tag %></span>
+            <h3 class="visual-title" data-signin="¡Hola de nuevo!" data-signup="Crea tu cuenta"></h3>
+            <p class="visual-sub"
+               data-signin="Ingresa con tu correo y contraseña para continuar."
+               data-signup="Regístrate en segundos y gestiona tus datos desde tu panel."></p>
+        </div>
+    </aside>
+
+    <!-- Panel principal -->
+    <section class="auth-panel">
+        <div class="auth-box">
+            <a href="/" class="auth-back"><i class="material-icons">arrow_back</i>Volver al inicio</a>
+
+            <div class="auth-switch <%= role === 'admin' ? 'single' : '' %>" role="tablist">
+                <button type="button" data-mode="signin" role="tab">Iniciar sesión</button>
+                <% if (role !== 'admin') { %>
+                <button type="button" data-mode="signup" role="tab">Registrarse</button>
+                <% } %>
+                <span class="auth-switch-indicator"></span>
+            </div>
+
+            <!-- SignIn -->
+            <form id="signin-form" class="auth-form" data-mode="signin" novalidate>
+                <h4 class="auth-title">Iniciar sesión</h4>
+                <p class="grey-text auth-subtitle">
+                    <%= role === 'admin' ? 'Acceso exclusivo para administradores.' : 'Bienvenido, ingresa tus credenciales.' %>
+                </p>
+                <div class="input-field">
+                    <i class="material-icons prefix">email</i>
+                    <input id="si-email" name="email" type="email" class="validate" autocomplete="email" required>
+                    <label for="si-email">Correo electrónico</label>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input id="si-password" name="password" type="password" autocomplete="current-password" required>
+                    <label for="si-password">Contraseña</label>
+                    <i class="material-icons toggle-pass" title="Mostrar contraseña">visibility</i>
+                </div>
+                <button type="submit" class="btn btn-large waves-effect waves-light brand full-width">
+                    Ingresar <i class="material-icons right">arrow_forward</i>
+                </button>
+                <div class="progress hide"><div class="indeterminate"></div></div>
+                <% if (role !== 'admin') { %>
+                <p class="auth-alt">¿No tienes cuenta? <a href="/signUp" data-switch="signup">Regístrate</a></p>
+                <% } %>
+            </form>
+
+            <% if (role !== 'admin') { %>
+            <!-- SignUp -->
+            <form id="signup-form" class="auth-form" data-mode="signup" novalidate>
+                <h4 class="auth-title">Crear cuenta</h4>
+                <p class="grey-text auth-subtitle">Tu cuenta se creará con el rol <b>user</b>.</p>
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <input id="su-name" name="name" type="text" autocomplete="given-name" required>
+                        <label for="su-name">Nombres *</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input id="su-lastName" name="lastName" type="text" autocomplete="family-name" required>
+                        <label for="su-lastName">Apellidos *</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input id="su-phone" name="phoneNumer" type="tel" autocomplete="tel" required>
+                        <label for="su-phone">Teléfono *</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input id="su-birthdate" name="birthdate" type="date" required>
+                        <label for="su-birthdate" class="active">Fecha de nacimiento *</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="su-email" name="email" type="email" class="validate" autocomplete="email" required>
+                        <label for="su-email">Correo electrónico *</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="su-password" name="password" type="password" autocomplete="new-password" required>
+                        <label for="su-password">Contraseña *</label>
+                        <i class="material-icons toggle-pass" title="Mostrar contraseña">visibility</i>
+                    </div>
+                </div>
+                <ul class="pass-rules">
+                    <li data-rule="length"><i class="material-icons">radio_button_unchecked</i>8+ caracteres</li>
+                    <li data-rule="upper"><i class="material-icons">radio_button_unchecked</i>Una mayúscula</li>
+                    <li data-rule="digit"><i class="material-icons">radio_button_unchecked</i>Un dígito</li>
+                    <li data-rule="special"><i class="material-icons">radio_button_unchecked</i>Un carácter # $ % &amp; * @</li>
+                </ul>
+                <button type="submit" class="btn btn-large waves-effect waves-light brand full-width">
+                    Registrarme <i class="material-icons right">check</i>
+                </button>
+                <div class="progress hide"><div class="indeterminate"></div></div>
+                <p class="auth-alt">¿Ya tienes cuenta? <a href="/signIn" data-switch="signin">Inicia sesión</a></p>
+            </form>
+            <% } %>
+        </div>
+    </section>
+</div>
+<%- include('../partials/footer', { script: 'auth.js' }) %>
