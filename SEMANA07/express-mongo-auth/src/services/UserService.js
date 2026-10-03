@@ -49,7 +49,9 @@ class UserService {
             if (payload[field] !== undefined) data[field] = payload[field];
         }
 
-        if (data.email) {
+        if (data.email !== undefined) {
+            if (typeof data.email !== 'string' || !data.email.trim())
+                throw httpError(400, 'El email no es válido');
             data.email = data.email.trim().toLowerCase();
             const existing = await userRepository.findByEmail(data.email);
             if (existing && String(existing._id) !== String(id))

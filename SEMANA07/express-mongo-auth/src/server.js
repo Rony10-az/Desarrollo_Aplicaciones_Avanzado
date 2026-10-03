@@ -46,6 +46,9 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
+// Neutraliza operadores de MongoDB ($ne, $regex, ...) que lleguen en los filtros de consulta
+mongoose.set('sanitizeFilter', true);
+
 mongoose.connect(process.env.MONGODB_URI, { autoIndex: true })
     .then(async () => {
         console.log('Mongo connected');
@@ -54,6 +57,6 @@ mongoose.connect(process.env.MONGODB_URI, { autoIndex: true })
         app.listen(PORT, () => console.log(`Servidor corriendo en : http://localhost:${PORT}`));
     })
     .catch(err => {
-        console.error('Error al conectar con Mongo:', err);
+        console.error('Error al iniciar el servidor:', err.message);
         process.exit(1);
     });

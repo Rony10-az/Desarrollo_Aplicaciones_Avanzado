@@ -1,11 +1,16 @@
 import authService from '../services/AuthService.js';
 
+// Evita inyección NoSQL: email y password deben ser texto, nunca objetos como {"$ne": null}
+const validCredentials = (email, password) =>
+    typeof email === 'string' && email.trim() !== '' &&
+    typeof password === 'string' && password !== '';
+
 class AuthController {
 
     async signUp(req, res, next) {
         try {
             const payload = req.body;
-            if (!payload.email || !payload.password)
+            if (!validCredentials(payload.email, payload.password))
                 return res.status(400).json({ message: 'El email y password son requeridos' });
 
             const user = await authService.signUp(payload);
@@ -19,7 +24,7 @@ class AuthController {
         try {
             const { email, password } = req.body;
 
-            if (!email || !password)
+            if (!validCredentials(email, password))
                 return res.status(400).json({ message: 'El email y password son requeridos' });
 
             const token = await authService.signIn({ email, password });

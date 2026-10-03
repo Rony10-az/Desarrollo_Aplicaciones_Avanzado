@@ -22,19 +22,21 @@ Copia el archivo de ejemplo y completa tus valores:
 cp .env.example .env
 ```
 
-Cambia al menos `MONGODB_URI`, `JWT_SECRET` y `ADMIN_PASSWORD`.
+Con los valores de ejemplo puedes probar la aplicación en local. Para un entorno real, cambia al menos `MONGODB_URI`, `JWT_SECRET` y `ADMIN_PASSWORD`.
 
 No subas el archivo `.env` al repositorio. Contiene información sensible y está excluido por `.gitignore`.
 
 ### Usuario administrador inicial
 
-Al iniciar, el servidor crea los roles `user` y `admin` y un usuario administrador si no existen. Por defecto:
+Al iniciar, el servidor crea los roles `user` y `admin` y un usuario administrador si no existen. El administrador se crea con `ADMIN_EMAIL` y `ADMIN_PASSWORD` del `.env`. No hay contraseña por defecto en el código: si falta `ADMIN_PASSWORD`, el servidor no inicia.
+
+Con el `.env.example`, el administrador de prueba es:
 
 | Email | Contraseña |
 | --- | --- |
-| `admin@example.com` | `Admin123@` |
+| `admin@example.com` | `Demo2026@` |
 
-Se pueden cambiar con variables opcionales en `.env`: `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `ADMIN_LAST_NAME`, `ADMIN_PHONE`, `ADMIN_BIRTHDATE`, `ADMIN_PROFILE_URL` y `ADMIN_ADDRESS`.
+Los demás datos del administrador son opcionales: `ADMIN_NAME`, `ADMIN_LAST_NAME`, `ADMIN_PHONE`, `ADMIN_BIRTHDATE`, `ADMIN_PROFILE_URL` y `ADMIN_ADDRESS`.
 
 ## Ejecución
 
