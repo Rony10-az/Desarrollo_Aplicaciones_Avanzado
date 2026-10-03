@@ -16,15 +16,13 @@ Desde esta carpeta:
 npm install
 ```
 
-Crea un archivo `.env` en `express-mongo-auth`:
+Copia el archivo de ejemplo y completa tus valores:
 
-```env
-PORT=3000
-MONGODB_URI=mongodb://127.0.0.1:27017/express-mongo-auth
-JWT_SECRET=una_clave_secreta_larga
-JWT_EXPIRES_IN=1h
-BCRYPT_SALT_ROUNDS=10
+```bash
+cp .env.example .env
 ```
+
+Cambia al menos `MONGODB_URI`, `JWT_SECRET` y `ADMIN_PASSWORD`.
 
 No subas el archivo `.env` al repositorio. Contiene información sensible y está excluido por `.gitignore`.
 
