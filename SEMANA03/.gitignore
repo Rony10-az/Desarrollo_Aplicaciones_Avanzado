@@ -1,0 +1,5 @@
+node_modules/
+salida.txt
+salida-backpressure.txt
+entrada.txt.gz
+texto_mayusculas.txt

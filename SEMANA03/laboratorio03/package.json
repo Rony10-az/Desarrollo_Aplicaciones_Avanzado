@@ -1,0 +1,14 @@
+{
+  "name": "laboratorio03-streams",
+  "version": "1.0.0",
+  "description": "Laboratorio 03 - Gestion de Archivos y Streams en Node.js",
+  "main": "actividad1-lectura.js",
+  "scripts": {
+    "actividad1": "node actividad1-lectura.js",
+    "actividad2": "node actividad2-escritura.js",
+    "actividad3": "node actividad3-compresion.js",
+    "actividad4": "node actividad4-backpressure.js",
+    "tarea1": "node tarea1-mayusculas.js"
+  },
+  "license": "ISC"
+}

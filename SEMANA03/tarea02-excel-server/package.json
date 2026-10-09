@@ -1,0 +1,13 @@
+{
+  "name": "tarea02-excel-server",
+  "version": "1.0.0",
+  "description": "Tarea 2 - Servidor HTTP que genera un reporte Excel en streaming con exceljs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  },
+  "license": "ISC"
+}

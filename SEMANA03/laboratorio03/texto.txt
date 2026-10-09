@@ -1,0 +1,2 @@
+Este es un archivo de prueba para transformar su contenido a mayúsculas usando un Transform Stream en Node.js.
+Los streams permiten procesar el texto por partes en lugar de cargarlo todo en memoria.
