@@ -1,0 +1,23 @@
+name: Deploy express-mongo-auth to Vercel
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'SEMANA07/express-mongo-auth/**'
+      - '.github/workflows/deploy-express-mongo-auth.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Vercel deploy
+        run: |
+          curl -X POST "$VERCEL_DEPLOY_HOOK_URL"
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_EXPRESS_AUTH }}
