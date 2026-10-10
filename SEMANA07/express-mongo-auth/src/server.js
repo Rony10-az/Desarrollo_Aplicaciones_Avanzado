@@ -54,9 +54,14 @@ mongoose.connect(process.env.MONGODB_URI, { autoIndex: true })
         console.log('Mongo connected');
         await seedRoles();
         await seedUser();
-        app.listen(PORT, () => console.log(`Servidor corriendo en : http://localhost:${PORT}`));
+        if (!process.env.VERCEL) {
+            app.listen(PORT, () => console.log(`Servidor corriendo en : http://localhost:${PORT}`));
+        }
     })
     .catch(err => {
         console.error('Error al iniciar el servidor:', err.message);
-        process.exit(1);
+        if (!process.env.VERCEL) process.exit(1);
     });
+
+// Vercel importa este módulo y usa el export como handler serverless
+export default app;
