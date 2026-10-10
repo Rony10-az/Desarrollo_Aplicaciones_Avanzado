@@ -27,7 +27,7 @@ Proyecto de API REST básica usando Node.js sin frameworks.
 | # | Endpoint | Descripción |
 |---|----------|-------------|
 | 1️⃣ | `GET /students` | Lista todos los estudiantes |
-| 2️⃣ | `GET /students/:id` | Obtiene un estudiante; `404` si no existe |
+| 2️⃣ | `GET /students/:id` | Obtiene un estudiante; `404` si no existe |RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
 | 3️⃣ | `POST /students` | Crea un estudiante; valida `name`, `email`, `course`, `phone` |
 | 4️⃣ | `PUT /students/:id` | Actualiza campos (el `id` no se puede modificar) |
 | 5️⃣ | `DELETE /students/:id` | Elimina un estudiante por id |
@@ -39,12 +39,12 @@ Proyecto de API REST básica usando Node.js sin frameworks.
 
 | GET `/students` | GET `/students/1` (éxito) | GET `/students/99` (404) |
 |:---:|:---:|:---:|
-| ![GET](SEMANA02/Docs/GET.png) | ![Éxito](SEMANA02/Docs/CASOEXITOSO-ID-1.png) | ![Error 404](SEMANA02/Docs/CASOERROR-ID-99-404ERROR.png) |
+| ![GET](Docs/GET.png) | ![Éxito](Docs/CASOEXITOSO-ID-1.png) | ![Error 404](Docs/CASOERROR-ID-99-404ERROR.png) |
 
 | POST `/students` (éxito) | POST falta `name` | POST falta `email` |
 |:---:|:---:|:---:|
-| ![POST éxito](SEMANA02/Docs/CasoPostEXITOSO.png) | ![Falta name](SEMANA02/Docs/POST-falta%20name.png) | ![Falta email](SEMANA02/Docs/POST-falta%20gmail.png) |
+| ![POST éxito](Docs/CasoPostEXITOSO.png) | ![Falta name](Docs/POST-falta%20name.png) | ![Falta email](Docs/POST-falta%20gmail.png) |
 
 | DELETE `/students/:id` | POST `/ListByStatus` | POST `/ListByGrade` |
 |:---:|:---:|:---:|
-| ![DELETE](SEMANA02/Docs/DELETE.png) | ![ListByStatus](SEMANA02/Docs/ListByStatus.png) | ![ListByGrade](SEMANA02/Docs/ListByGrade.png) |
+| ![DELETE](Docs/DELETE.png) | ![ListByStatus](Docs/ListByStatus.png) | ![ListByGrade](Docs/ListByGrade.png) |
