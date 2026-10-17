@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import axios from 'axios'
 import ClientWeatherWidget from './ClientWeatherWidget'
 
@@ -17,9 +18,23 @@ async function getWeatherServer() {
     return response.data as WeatherData
 }
 
-export default async function WeatherDashboard() {
+// Va dentro de <Suspense>: el clima se pide en el servidor en cada petición y se transmite (streaming) con el HTML.
+async function LimaWeather() {
     const serverWeather = await getWeatherServer()
 
+    return (
+        <>
+            <div className="text-6xl font-bold text-blue-600 mb-2">
+                {serverWeather.current_weather.temperature}°C
+            </div>
+            <p className="text-gray-600">
+                Viento: {serverWeather.current_weather.windspeed} km/h
+            </p>
+        </>
+    )
+}
+
+export default function WeatherDashboard() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 p-8">
             <div className="max-w-6xl mx-auto">
@@ -34,12 +49,16 @@ export default async function WeatherDashboard() {
                             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                             <h2 className="text-2xl font-bold text-gray-800">Lima - SSR</h2>
                         </div>
-                        <div className="text-6xl font-bold text-blue-600 mb-2">
-                            {serverWeather.current_weather.temperature}°C
-                        </div>
-                        <p className="text-gray-600">
-                            Viento: {serverWeather.current_weather.windspeed} km/h
-                        </p>
+                        <Suspense
+                            fallback={
+                                <div className="space-y-3 animate-pulse">
+                                    <div className="h-14 w-40 rounded-lg bg-gray-200" />
+                                    <div className="h-4 w-32 rounded bg-gray-200" />
+                                </div>
+                            }
+                        >
+                            <LimaWeather />
+                        </Suspense>
                         <div className="mt-4 p-3 bg-green-50 rounded-lg border-2 border-green-200">
                             <p className="text-xs text-green-800">
                                 ✅ Datos obtenidos en el servidor - SEO friendly

@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import { connection } from 'next/server'
 import axios from 'axios'
 
 interface Pokemon {
@@ -13,14 +15,39 @@ interface Pokemon {
 }
 
 async function getPokemon(): Promise<Pokemon> {
+    // Sin connection(), Next.js congelaría el Math.random() en el build; así se genera uno nuevo en cada petición.
+    await connection()
     const randomId = Math.floor(Math.random() * 150) + 1
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`)
     return response.data;
 }
 
-export default async function PokemonSSR() {
+async function PokemonCard() {
     const pokemon = await getPokemon()
 
+    return (
+        <div className="text-center">
+            <img
+                src={pokemon.sprites.front_default}
+                alt={pokemon.name}
+                className="w-48 h-48 mx-auto"
+            />
+            <h2 className="text-gray-700 text-4xl font-bold capitalize mt-4">{pokemon.name}</h2>
+            <div className="flex gap-2 justify-center mt-4">
+                {pokemon.types.map((type) => (
+                    <span
+                        key={type.type.name}
+                        className="px-4 py-2 bg-green-500 text-white rounded-full font-semibold"
+                    >
+                        {type.type.name}
+                    </span>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+export default function PokemonSSR() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-500 to-teal-600 p-8">
             <div className="max-w-2xl mx-auto">
@@ -30,24 +57,15 @@ export default async function PokemonSSR() {
                 </div>
 
                 <div className="bg-white rounded-b-xl shadow-2xl p-8 border-4 border-black border-t-0">
-                    <div className="text-center">
-                        <img
-                            src={pokemon.sprites.front_default}
-                            alt={pokemon.name}
-                            className="w-48 h-48 mx-auto"
-                        />
-                        <h2 className="text-gray-700 text-4xl font-bold capitalize mt-4">{pokemon.name}</h2>
-                        <div className="flex gap-2 justify-center mt-4">
-                            {pokemon.types.map((type) => (
-                                <span
-                                    key={type.type.name}
-                                    className="px-4 py-2 bg-green-500 text-white rounded-full font-semibold"
-                                >
-                                    {type.type.name}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
+                    <Suspense
+                        fallback={
+                            <div className="text-center py-12">
+                                <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-green-500 mx-auto"></div>
+                            </div>
+                        }
+                    >
+                        <PokemonCard />
+                    </Suspense>
 
                     <div className="mt-8 p-4 bg-green-50 rounded-lg border-2 border-green-200">
                         <p className="text-sm text-green-800">
