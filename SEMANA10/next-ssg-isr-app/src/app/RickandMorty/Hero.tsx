@@ -3,49 +3,33 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import Backdrop from './Backdrop';
 import PortalRings from './PortalRings';
+import { drip } from './fonts';
 
 const avatar = (id: number) => `https://rickandmortyapi.com/api/character/avatar/${id}.jpeg`;
 
-// Render oficial de Rick (wiki), tratado con viñeta + tinte para integrarse al fondo
+// Rick y Morty a cuerpo entero cruzando el portal (ilustración vectorial,
+// fondo transparente). Morty ya aparece aquí, así que no se repite abajo.
 const RICK_FULL_BODY =
-    'https://static.wikia.nocookie.net/rickandmorty/images/a/a6/Rick_Sanchez.png/revision/latest?cb=20250817060829';
+    'https://raw.githubusercontent.com/lnascc/landing-page/main/images/rmvector.png';
 
-const RICK_VIGNETTE = 'radial-gradient(ellipse 72% 88% at 50% 38%, black 60%, transparent 100%)';
-
-// Personajes que orbitan alrededor del portal: [id, nombre, ángulo]
+// El resto de la familia orbita alrededor del portal: [id, nombre, ángulo]
 const orbiters = [
-    { id: 2, name: 'Morty', angle: 0 },
-    { id: 3, name: 'Summer', angle: 90 },
-    { id: 4, name: 'Beth', angle: 180 },
-    { id: 5, name: 'Jerry', angle: 270 },
+    { id: 3, name: 'Summer', angle: 0 },
+    { id: 4, name: 'Beth', angle: 120 },
+    { id: 5, name: 'Jerry', angle: 240 },
 ];
 
 const ORBIT_SECONDS = 36;
 
 export default function Hero({ total }: { total: number }) {
-    // Parallax suave: Rick se inclina hacia el mouse
-    const mx = useMotionValue(0);
-    const my = useMotionValue(0);
-    const sx = useSpring(mx, { stiffness: 60, damping: 15 });
-    const sy = useSpring(my, { stiffness: 60, damping: 15 });
-    const rotateY = useTransform(sx, [-1, 1], [-10, 10]);
-    const rotateX = useTransform(sy, [-1, 1], [6, -6]);
-
     return (
-        <section
-            onMouseMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                mx.set(((e.clientX - rect.left) / rect.width) * 2 - 1);
-                my.set(((e.clientY - rect.top) / rect.height) * 2 - 1);
-            }}
-            className="relative isolate overflow-hidden"
-        >
+        <section className="relative isolate overflow-hidden">
             <Backdrop />
 
-            <div className="relative z-10 mx-auto grid min-h-[calc(100dvh-57px)] max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2">
+            <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:min-h-[calc(100dvh-57px)] lg:grid-cols-2 lg:items-center">
                 <div className="text-center lg:text-left">
                     <motion.p
                         initial={{ opacity: 0, y: -10 }}
@@ -63,7 +47,9 @@ export default function Hero({ total }: { total: number }) {
                         className="mt-5 text-5xl font-extrabold leading-[1.05] text-white sm:text-6xl xl:text-7xl"
                     >
                         Cruza el portal al universo de{' '}
-                        <span className="bg-linear-to-r from-emerald-300 via-lime-300 to-cyan-300 bg-clip-text text-transparent">
+                        <span
+                            className={`${drip.className} inline-block text-cyan-300 [text-shadow:0_0_14px_rgba(57,255,20,0.55),0_0_3px_rgba(57,255,20,0.85)]`}
+                        >
                             Rick and Morty
                         </span>
                     </motion.h1>
@@ -100,26 +86,46 @@ export default function Hero({ total }: { total: number }) {
                     </motion.div>
                 </div>
 
-                {/* Portal con Rick saliendo de él, a cuerpo entero */}
-                <div
-                    className="relative mx-auto h-[26rem] w-72 sm:h-[34rem] sm:w-96"
-                    style={{ perspective: 1000 }}
-                >
-                    {/* zona del portal: cuadrada, centrada, para que la órbita sea un círculo real */}
-                    <div className="absolute left-1/2 top-6 h-52 w-52 -translate-x-1/2 sm:h-60 sm:w-60">
+                {/* Portal con Rick y Morty saliendo de él, a cuerpo entero */}
+                <div className="relative mx-auto h-96 w-80 sm:h-[32rem] sm:w-[27rem]">
+                    {/* halo del portal: glow suave detrás de la ilustración, no compite con ella */}
+                    <div className="absolute left-1/2 top-[46%] h-48 w-48 -translate-x-1/2 -translate-y-1/2 opacity-60 blur-[2px] sm:h-56 sm:w-56">
                         <PortalRings />
+                    </div>
 
-                        {/* Familia orbitando el portal */}
+                    {/* Rick y Morty cruzando el portal, a cuerpo entero */}
+                    <motion.div
+                        className="absolute inset-0 z-10"
+                        initial={{ opacity: 0, scale: 0.85, y: 24 }}
+                        animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+                        transition={{
+                            opacity: { duration: 0.9, delay: 0.2 },
+                            scale: { type: 'spring', stiffness: 70, damping: 15, delay: 0.2 },
+                            y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+                        }}
+                    >
+                        <Image
+                            src={RICK_FULL_BODY}
+                            alt="Rick y Morty cruzando el portal, a cuerpo entero"
+                            fill
+                            priority
+                            sizes="(min-width: 640px) 432px, 320px"
+                            className="object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)]"
+                        />
+                    </motion.div>
+
+                    {/* Resto de la familia orbitando el portal */}
+                    <div className="absolute left-1/2 top-[46%] z-20 h-48 w-48 -translate-x-1/2 -translate-y-1/2 sm:h-56 sm:w-56">
                         {orbiters.map((o) => (
                             <motion.div
                                 key={o.id}
-                                className="absolute inset-0 z-20"
+                                className="absolute inset-0"
                                 initial={{ rotate: o.angle }}
                                 animate={{ rotate: o.angle + 360 }}
                                 transition={{ duration: ORBIT_SECONDS, repeat: Infinity, ease: 'linear' }}
                             >
                                 <motion.div
-                                    className="absolute left-1/2 top-0 -ml-7 -mt-7 h-14 w-14"
+                                    className="absolute left-1/2 top-0 -ml-6 -mt-6 h-12 w-12"
                                     initial={{ rotate: -o.angle }}
                                     animate={{ rotate: -o.angle - 360 }}
                                     transition={{
@@ -131,44 +137,14 @@ export default function Hero({ total }: { total: number }) {
                                     <Image
                                         src={avatar(o.id)}
                                         alt={o.name}
-                                        width={56}
-                                        height={56}
-                                        className="h-full w-full rounded-full object-cover ring-2 ring-emerald-300 shadow-lg shadow-emerald-500/40"
+                                        width={48}
+                                        height={48}
+                                        className="h-full w-full rounded-full object-cover ring-2 ring-emerald-300/80 shadow-lg shadow-emerald-500/40"
                                     />
                                 </motion.div>
                             </motion.div>
                         ))}
                     </div>
-
-                    {/* Rick de cuerpo entero, emergiendo por delante del portal */}
-                    <motion.div
-                        className="absolute inset-x-0 bottom-0 top-0 z-10"
-                        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-                        initial={{ opacity: 0, scale: 0.6, y: 40 }}
-                        animate={{ opacity: 1, scale: 1, y: [0, -14, 0] }}
-                        transition={{
-                            opacity: { duration: 0.9, delay: 0.2 },
-                            scale: { type: 'spring', stiffness: 60, damping: 13, delay: 0.2 },
-                            y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
-                        }}
-                    >
-                        <div
-                            className="relative h-full w-full"
-                            style={{ maskImage: RICK_VIGNETTE, WebkitMaskImage: RICK_VIGNETTE }}
-                        >
-                            <Image
-                                src={RICK_FULL_BODY}
-                                alt="Rick Sánchez saliendo del portal"
-                                fill
-                                priority
-                                sizes="(min-width: 640px) 384px, 288px"
-                                className="object-cover object-top saturate-125 contrast-110 drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]"
-                            />
-                            {/* tinte para integrar la foto a la paleta esmeralda del sitio */}
-                            <div className="absolute inset-0 bg-emerald-400/10 mix-blend-color" />
-                            <div className="absolute inset-0 bg-linear-to-t from-[#07060f] via-transparent to-transparent" />
-                        </div>
-                    </motion.div>
                 </div>
             </div>
 

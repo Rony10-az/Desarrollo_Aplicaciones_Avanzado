@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { drip } from './fonts';
 
 export const metadata: Metadata = {
     title: 'Rick and Morty - Guía de personajes',
@@ -29,19 +30,20 @@ export default function RickAndMortyLayout({ children }: { children: ReactNode }
         <div className="min-h-screen bg-[#07060f] text-slate-100">
             <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07060f]/80 backdrop-blur-md">
                 <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-                    <Link
-                        href="/RickandMorty"
-                        className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white"
-                    >
+                    <Link href="/RickandMorty" className="flex items-center gap-2.5">
                         <PortalLogo />
-                        Rick <span className="text-emerald-400">&amp;</span> Morty
+                        <span
+                            className={`${drip.className} text-2xl leading-none text-cyan-300 [text-shadow:0_0_10px_rgba(57,255,20,0.55),0_0_2px_rgba(57,255,20,0.8)] sm:text-3xl`}
+                        >
+                            Rick and Morty
+                        </span>
                     </Link>
-                    <ul className="flex items-center gap-1 sm:gap-2">
+                    <ul className="flex items-center gap-0.5 sm:gap-2">
                         {links.map((link) => (
                             <li key={link.label}>
                                 <Link
                                     href={link.href}
-                                    className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+                                    className="rounded-lg px-2 py-2 text-xs font-medium text-slate-300 transition hover:bg-white/10 hover:text-white sm:px-3 sm:text-sm"
                                 >
                                     {link.label}
                                 </Link>

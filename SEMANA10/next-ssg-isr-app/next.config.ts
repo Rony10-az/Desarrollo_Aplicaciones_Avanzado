@@ -12,10 +12,6 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'rickandmortyapi.com',
       },
-      {
-        protocol: 'https',
-        hostname: 'static.wikia.nocookie.net',
-      },
     ],
   },
   experimental: {

@@ -153,29 +153,8 @@
   animation: twinkle 5s ease-in-out infinite alternate;
 }
 
-/* Marco holográfico animado de las tarjetas de personaje (CharacterCard):
-   el degradado gira dentro de la forma recortada, que permanece fija. */
-@property --holo-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
-.holo-edge {
-  --holo-angle: 0deg;
-  background: conic-gradient(from var(--holo-angle), #10b981, #bef264, #22d3ee, #10b981);
-  animation: holo-spin 6s linear infinite;
-}
-
-@keyframes holo-spin {
-  to {
-    --holo-angle: 360deg;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .animate-twinkle,
-  .holo-edge {
+  .animate-twinkle {
     animation: none;
   }
 }
