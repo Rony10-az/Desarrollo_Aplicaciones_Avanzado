@@ -1,6 +1,7 @@
 import { getCharacters } from './api';
 import CharacterSearch from './CharacterSearch';
 import Hero from './Hero';
+import PortalTransition from './PortalTransition';
 
 /*
  * Lista inicial: se obtiene en el servidor con cache: 'force-cache',
@@ -14,6 +15,7 @@ export default async function RickAndMortyPage() {
     return (
         <>
             <Hero total={data.info.count} />
+            <PortalTransition />
             <div className="pb-16 pt-8">
                 <CharacterSearch initialData={data} />
             </div>

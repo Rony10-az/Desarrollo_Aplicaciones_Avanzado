@@ -2,19 +2,31 @@
 
 import Image from 'next/image';
 import { motion } from 'motion/react';
+import {
+    CalendarDays,
+    Dna,
+    Globe2,
+    HeartPulse,
+    LucideIcon,
+    MapPin,
+    Tag,
+    Tv,
+    VenusAndMars,
+} from 'lucide-react';
 import { Character } from '@/types/rickandmorty';
 import Backdrop from './Backdrop';
 import TiltCard from './TiltCard';
 import { genderLabels, statusLabels, statusStyles } from './styles';
 
 interface Trait {
-    icon: string;
+    icon: LucideIcon;
     label: string;
     value: string;
 }
 
 function Chip({ trait, index, side }: { trait: Trait; index: number; side: 'left' | 'right' }) {
     const fromX = side === 'left' ? 120 : -120; // entra desde el centro hacia su posición
+    const Icon = trait.icon;
 
     return (
         <motion.div
@@ -34,8 +46,8 @@ function Chip({ trait, index, side }: { trait: Trait; index: number; side: 'left
                 whileHover={{ scale: 1.06 }}
                 className="rounded-2xl border border-emerald-400/20 bg-slate-900/70 px-5 py-4 backdrop-blur-md shadow-lg hover:border-emerald-300/60 hover:shadow-emerald-500/20 transition-colors"
             >
-                <p className="text-xs uppercase tracking-widest text-emerald-400">
-                    <span className="mr-1.5">{trait.icon}</span>
+                <p className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-emerald-400">
+                    <Icon size={14} strokeWidth={1.75} />
                     {trait.label}
                 </p>
                 <p className="mt-1 text-lg font-semibold text-white wrap-break-word">
@@ -48,17 +60,17 @@ function Chip({ trait, index, side }: { trait: Trait; index: number; side: 'left
 
 export default function CharacterShowcase({ character }: { character: Character }) {
     const left: Trait[] = [
-        { icon: '🧬', label: 'Especie', value: character.species },
-        { icon: '🔖', label: 'Tipo', value: character.type },
-        { icon: '⚧', label: 'Género', value: genderLabels[character.gender] },
-        { icon: '💓', label: 'Estado', value: statusLabels[character.status] },
+        { icon: Dna, label: 'Especie', value: character.species },
+        { icon: Tag, label: 'Tipo', value: character.type },
+        { icon: VenusAndMars, label: 'Género', value: genderLabels[character.gender] },
+        { icon: HeartPulse, label: 'Estado', value: statusLabels[character.status] },
     ];
     const right: Trait[] = [
-        { icon: '🌍', label: 'Origen', value: character.origin.name },
-        { icon: '📍', label: 'Última ubicación', value: character.location.name },
-        { icon: '📺', label: 'Episodios', value: String(character.episode.length) },
+        { icon: Globe2, label: 'Origen', value: character.origin.name },
+        { icon: MapPin, label: 'Última ubicación', value: character.location.name },
+        { icon: Tv, label: 'Episodios', value: String(character.episode.length) },
         {
-            icon: '🗓',
+            icon: CalendarDays,
             label: 'Creado',
             value: new Date(character.created).toLocaleDateString('es-PE'),
         },
@@ -118,7 +130,7 @@ export default function CharacterShowcase({ character }: { character: Character 
                                 className="absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-slate-950/95 px-5 py-2 text-sm font-medium text-white shadow-xl ring-1 ring-white/20"
                             >
                                 <span
-                                    className={`inline-block h-2.5 w-2.5 rounded-full ${statusStyles[character.status]}`}
+                                    className={`inline-block h-2.5 w-2.5 animate-pulse rounded-full ${statusStyles[character.status]}`}
                                 />
                                 {statusLabels[character.status]}
                             </span>
@@ -139,7 +151,8 @@ export default function CharacterShowcase({ character }: { character: Character 
                     transition={{ delay: 1.2, duration: 0.6 }}
                     className="mt-16"
                 >
-                    <p className="mb-3 text-center text-xs uppercase tracking-widest text-emerald-400">
+                    <p className="mb-3 flex items-center justify-center gap-2 text-center text-xs uppercase tracking-widest text-emerald-400">
+                        <Tv size={14} strokeWidth={1.75} />
                         Aparece en {character.episode.length} episodios
                     </p>
                     <div className="flex flex-wrap justify-center gap-2">
