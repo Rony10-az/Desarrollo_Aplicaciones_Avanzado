@@ -12,8 +12,9 @@ const avatar = (id: number) => `https://rickandmortyapi.com/api/character/avatar
 
 // Rick y Morty a cuerpo entero cruzando el portal (ilustración vectorial,
 // fondo transparente). Morty ya aparece aquí, así que no se repite abajo.
-const RICK_FULL_BODY =
-    'https://raw.githubusercontent.com/lnascc/landing-page/main/images/rmvector.png';
+// Se sirve local (public/rickandmorty) en vez de hotlinkear: más rápido,
+// no depende de un repo externo y next/image la optimiza igual.
+const RICK_FULL_BODY = '/rickandmorty/hero-portal.png';
 
 // El resto de la familia orbita alrededor del portal: [id, nombre, ángulo]
 const orbiters = [
