@@ -85,7 +85,7 @@ export default function PortalTransition() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.3 }}
-                className="rm-glitch absolute top-20 z-30 px-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-teal-200"
+                className="rm-glitch absolute top-32 z-30 px-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-teal-200 sm:top-20"
             >
                 Señal interdimensional
             </motion.p>
