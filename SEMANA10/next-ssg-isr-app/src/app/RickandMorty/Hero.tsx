@@ -10,15 +10,24 @@ import { drip } from './fonts';
 const INTRO_MS = 5600;
 
 const chips = [
-    { src: '/rickandmorty/evil-morty.jpg', alt: 'Evil Morty', className: 'left-[6%] top-[18%] h-16 w-16 sm:h-20 sm:w-20', path: [0, 14, -6, 0], delay: 0 },
-    { src: '/rickandmorty/chase.jpg', alt: 'Rick y Morty escapando por un portal', className: 'right-[10%] top-[12%] h-14 w-14 sm:h-24 sm:w-24', path: [0, -10, 10, 0], delay: 1.1 },
-    { src: '/rickandmorty/falling.jpg', alt: 'Rick y Morty cayendo entre portales', className: 'right-[4%] bottom-[16%] h-16 w-16 sm:h-20 sm:w-20', path: [0, 12, -8, 0], delay: 2 },
+    { src: '/rickandmorty/evil-morty.jpg', alt: 'Evil Morty', top: '16%', size: 60, duration: 42, delay: -4 },
+    {
+        src: '/rickandmorty/chase.jpg',
+        alt: 'Rick y Morty escapando por un portal',
+        top: '68%',
+        size: 50,
+        duration: 55,
+        delay: -18,
+        objectPosition: 'center 30%',
+    },
+    { src: '/rickandmorty/falling.jpg', alt: 'Rick y Morty cayendo entre portales', top: '42%', size: 56, duration: 48, delay: -30 },
 ];
 
 /*
- * Intro cinemática: aro que se expande, el retrato de Rick y Morty entra en
- * zoom, "Bienvenido" y por último el título sellado en verde. Se juega una
- * sola vez al montar y luego se desmonta; respeta prefers-reduced-motion.
+ * Intro cinemática: un aro hueco que se expande y se apaga, el retrato de
+ * Rick y Morty en zoom, "Bienvenido" y por último el título sellado en
+ * verde. Se juega una sola vez al montar y luego se desmonta; respeta
+ * prefers-reduced-motion.
  */
 function IntroOverlay({ onDone }: { onDone: (reducedMotion: boolean) => void }) {
     useEffect(() => {
@@ -31,49 +40,58 @@ function IntroOverlay({ onDone }: { onDone: (reducedMotion: boolean) => void }) 
         <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: [1, 1, 0] }}
-            transition={{ duration: INTRO_MS / 1000, times: [0, 0.86, 1], ease: 'easeInOut' }}
-            className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#07060f]"
+            transition={{ duration: INTRO_MS / 1000, times: [0, 0.75, 1], ease: 'easeInOut' }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-[#05060d] px-6"
         >
             <div aria-hidden className="starfield animate-twinkle absolute inset-0 opacity-70" />
 
-            <motion.div
-                aria-hidden
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="absolute h-64 w-64 rounded-full bg-[conic-gradient(from_0deg,#39ff14,#0a3a0a,#b6ff8a,#0a3a0a,#39ff14)] blur-[2px] sm:h-80 sm:w-80"
-            />
-
-            <motion.div
-                initial={{ opacity: 0, scale: 1.3 }}
-                animate={{ opacity: [0, 1, 1, 0], scale: [1.3, 1, 1, 1.05] }}
-                transition={{ duration: 2.6, times: [0, 0.3, 0.75, 1], delay: 0.5, ease: 'easeOut' }}
-                className="absolute h-48 w-48 overflow-hidden rounded-full ring-4 ring-emerald-300/70 shadow-[0_0_60px_rgba(57,255,20,0.5)] sm:h-64 sm:w-64"
-            >
-                <Image
-                    src="/rickandmorty/chase.jpg"
-                    alt=""
-                    fill
-                    priority
-                    sizes="256px"
-                    className="object-cover"
+            <div className="relative h-72 w-60 sm:h-80 sm:w-64">
+                {/* aro hueco que se expande y se apaga */}
+                <motion.div
+                    aria-hidden
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: [0, 0.8, 0], scale: [0.6, 1, 1.6] }}
+                    transition={{ duration: 1.4, delay: 0.1, ease: 'easeOut' }}
+                    className="absolute -inset-6 rounded-full border-2 border-emerald-400"
                 />
-            </motion.div>
+
+                {/* retrato con mascara de viñeta, sin forma circular */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.55 }}
+                    animate={{ opacity: 1, scale: [0.55, 1.04, 1] }}
+                    transition={{ duration: 1, times: [0, 0.6, 1], delay: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+                    className="relative h-full w-full overflow-hidden rounded-2xl"
+                    style={{
+                        maskImage: 'radial-gradient(ellipse 82% 90% at 50% 38%, #000 65%, transparent 100%)',
+                        WebkitMaskImage:
+                            'radial-gradient(ellipse 82% 90% at 50% 38%, #000 65%, transparent 100%)',
+                    }}
+                >
+                    <Image
+                        src="/rickandmorty/chase.jpg"
+                        alt="Rick corriendo con Morty hacia un portal"
+                        fill
+                        priority
+                        sizes="256px"
+                        className="object-cover object-[center_35%]"
+                    />
+                </motion.div>
+            </div>
 
             <motion.p
                 initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: [0, 1, 1, 0], y: 0 }}
-                transition={{ duration: 1.4, times: [0, 0.3, 0.75, 1], delay: 2.0, ease: 'easeOut' }}
-                className="absolute top-[28%] text-2xl font-semibold tracking-wide text-cyan-100 sm:text-3xl"
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.5, ease: 'easeOut' }}
+                className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-200"
             >
                 Bienvenido
             </motion.p>
 
             <motion.p
-                initial={{ opacity: 0, scale: 1.4, rotate: -4 }}
-                animate={{ opacity: [0, 1, 1], scale: [1.4, 0.95, 1], rotate: [-4, 1, 0] }}
-                transition={{ duration: 1.8, times: [0, 0.6, 1], delay: 2.9, ease: 'easeOut' }}
-                className={`${drip.className} px-6 text-center text-5xl leading-none text-[#39ff14] [text-shadow:0_0_24px_rgba(57,255,20,0.8),0_0_4px_rgba(57,255,20,1)] sm:text-7xl`}
+                initial={{ opacity: 0, scale: 1.35 }}
+                animate={{ opacity: 1, scale: [1.35, 0.94, 1] }}
+                transition={{ duration: 0.8, times: [0, 0.65, 1], delay: 2.1, ease: [0.2, 0.8, 0.2, 1] }}
+                className={`${drip.className} mt-1.5 px-6 text-center text-5xl leading-none text-[#39ff14] [text-shadow:0_0_18px_rgba(57,255,20,0.65),0_0_48px_rgba(57,255,20,0.35)] sm:text-7xl`}
             >
                 Rick and Morty
             </motion.p>
@@ -92,7 +110,7 @@ export default function Hero({ total }: { total: number }) {
     const contentDelay = skipIntro ? 0 : INTRO_MS / 1000;
 
     return (
-        <section className="relative isolate overflow-hidden">
+        <section className="relative isolate flex min-h-[calc(100dvh-57px)] flex-col overflow-hidden">
             {introVisible && (
                 <IntroOverlay
                     onDone={(reducedMotion) => {
@@ -102,107 +120,123 @@ export default function Hero({ total }: { total: number }) {
                 />
             )}
 
-            {/* fondo a página completa */}
+            {/* fondo a página completa, oscurecido hacia el texto (izquierda) */}
             <div className="absolute inset-0 -z-10">
                 <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority />
-                <div className="absolute inset-0 bg-linear-to-t from-[#07060f] via-[#07060f]/70 to-[#07060f]/20" />
-                <div className="absolute inset-0 bg-linear-to-r from-[#07060f]/70 via-transparent to-[#07060f]/40" />
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background:
+                            'linear-gradient(100deg, rgba(7,6,15,0.97) 20%, rgba(7,6,15,0.78) 45%, rgba(7,6,15,0.35) 75%)',
+                    }}
+                />
             </div>
 
-            {/* chips flotantes decorativos */}
+            {/* chips flotantes: a la deriva de lado a lado, sin parar */}
             {chips.map((chip) => (
-                <motion.div
+                <div
                     key={chip.src}
                     aria-hidden
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, x: chip.path, y: chip.path.map((v) => v * 0.6) }}
-                    transition={{
-                        opacity: { duration: 1, delay: contentDelay + 0.3 },
-                        x: { duration: 9, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
-                        y: { duration: 9, repeat: Infinity, ease: 'easeInOut', delay: chip.delay },
+                    className="rm-drift absolute hidden overflow-hidden rounded-full ring-2 ring-emerald-400/70 shadow-[0_0_16px_rgba(16,185,129,0.4)] sm:block"
+                    style={{
+                        top: chip.top,
+                        left: 0,
+                        width: chip.size,
+                        height: chip.size,
+                        animationDuration: `${chip.duration}s`,
+                        animationDelay: `${chip.delay}s`,
                     }}
-                    className={`absolute hidden overflow-hidden rounded-full ring-2 ring-white/20 shadow-xl shadow-black/50 sm:block ${chip.className}`}
                 >
-                    <Image src={chip.src} alt={chip.alt} fill sizes="96px" className="object-cover" />
-                </motion.div>
+                    <Image
+                        src={chip.src}
+                        alt={chip.alt}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                        style={chip.objectPosition ? { objectPosition: chip.objectPosition } : undefined}
+                    />
+                </div>
             ))}
 
-            <div className="relative z-10 mx-auto max-w-4xl px-6 py-24 text-center lg:min-h-[calc(100dvh-57px)] lg:flex lg:flex-col lg:justify-center">
-                <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: contentDelay }}
-                    className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-400"
-                >
-                    Guía de personajes
-                </motion.p>
-
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: contentDelay + 0.1 }}
-                    className="mt-5 text-5xl font-extrabold leading-[1.05] text-white sm:text-6xl xl:text-7xl"
-                >
-                    Cruza el portal al universo de{' '}
-                    <span className={`${drip.className} rm-title-glow inline-block text-cyan-300`}>
-                        Rick and Morty
-                    </span>
-                </motion.h1>
-
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: contentDelay + 0.3 }}
-                    className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-slate-300"
-                >
-                    {total} personajes, infinitas dimensiones... y tú, del otro lado de la pantalla,
-                    viéndolo todo.
-                </motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: contentDelay + 0.5 }}
-                    className="mt-10 flex flex-col items-center gap-5"
-                >
-                    <div className="group/peek relative">
-                        <motion.a
-                            href="#cruzar-portal"
-                            whileHover={{ scaleX: 1.08, scaleY: 0.94 }}
-                            whileTap={{ scaleX: 0.92, scaleY: 1.08 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 12 }}
-                            className="inline-block rounded-xl px-9 py-3.5 font-semibold text-slate-950 shadow-lg shadow-emerald-500/30"
-                            style={{
-                                background: 'linear-gradient(135deg,#a3e635,#34d399 55%,#0f9e8f)',
-                            }}
-                        >
-                            Cruzar el portal
-                        </motion.a>
-
-                        {/* easter egg: alguien te está viendo */}
-                        <div className="pointer-events-none absolute inset-x-0 -top-20 flex flex-col items-center gap-1.5 opacity-0 transition duration-300 group-hover/peek:opacity-100">
-                            <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-red-500/70 shadow-lg shadow-red-900/60">
-                                <Image
-                                    src="/rickandmorty/evil-morty.jpg"
-                                    alt=""
-                                    width={48}
-                                    height={48}
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>
-                            <span className="whitespace-nowrap rounded-full bg-slate-950/90 px-3 py-1 text-xs text-red-300 ring-1 ring-red-500/30">
-                                Alguien te está viendo...
-                            </span>
-                        </div>
-                    </div>
-
-                    <a
-                        href="#personajes"
-                        className="font-medium text-slate-300 underline-offset-4 transition hover:text-emerald-300 hover:underline"
+            <div className="relative z-10 flex flex-1 items-center px-6 py-16 sm:px-10 lg:px-16">
+                <div className="max-w-xl text-left">
+                    <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: contentDelay }}
+                        className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-400"
                     >
-                        Explorar personajes →
-                    </a>
-                </motion.div>
+                        Guía de personajes
+                    </motion.p>
+
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: contentDelay + 0.1 }}
+                        className="mt-5 text-4xl font-extrabold leading-[1.1] text-white sm:text-5xl"
+                    >
+                        Cruza el portal al universo de
+                        <br />
+                        <span className={`${drip.className} rm-title-glow inline-block text-cyan-300`}>
+                            Rick and Morty
+                        </span>
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: contentDelay + 0.3 }}
+                        className="mt-6 max-w-sm text-base leading-relaxed text-slate-300"
+                    >
+                        {total} personajes, infinitas dimensiones... y tú, del otro lado de la pantalla,
+                        viéndolo todo.
+                    </motion.p>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: contentDelay + 0.5 }}
+                        className="mt-10 flex flex-wrap items-center gap-7"
+                    >
+                        <div className="group/peek relative inline-flex">
+                            <motion.a
+                                href="#cruzar-portal"
+                                whileHover={{ scaleX: 1.1, scaleY: 0.92 }}
+                                whileTap={{ scaleX: 0.93, scaleY: 1.07 }}
+                                transition={{ type: 'spring', stiffness: 400, damping: 12 }}
+                                className="inline-block rounded-xl px-8 py-3.5 font-bold text-[#022c22] shadow-lg shadow-emerald-500/30"
+                                style={{
+                                    background: 'linear-gradient(135deg,#a3e635,#34d399 55%,#0f9e8f)',
+                                }}
+                            >
+                                Cruzar el portal
+                            </motion.a>
+
+                            {/* easter egg: alguien te está viendo */}
+                            <div className="pointer-events-none absolute inset-x-0 bottom-full mb-3 flex flex-col items-center gap-1.5 opacity-0 transition duration-300 group-hover/peek:opacity-100">
+                                <span className="whitespace-nowrap rounded-[10px] bg-[#0b0d16] px-3.5 py-1.5 text-xs text-slate-200 ring-1 ring-white/20">
+                                    Alguien te está viendo...
+                                </span>
+                                <div className="h-13 w-13 overflow-hidden rounded-full ring-2 ring-emerald-400">
+                                    <Image
+                                        src="/rickandmorty/evil-morty.jpg"
+                                        alt=""
+                                        width={52}
+                                        height={52}
+                                        className="h-full w-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <a
+                            href="#personajes"
+                            className="text-sm font-semibold text-slate-200 transition hover:text-emerald-300"
+                        >
+                            Explorar personajes →
+                        </a>
+                    </motion.div>
+                </div>
             </div>
 
             {/* Indicador de scroll hacia la secuencia del portal */}
@@ -211,7 +245,7 @@ export default function Hero({ total }: { total: number }) {
                 aria-label="Desliza para cruzar el portal"
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-x-0 bottom-6 z-10 mx-auto flex w-fit flex-col items-center gap-1 text-emerald-300/80 transition hover:text-emerald-200"
+                className="relative z-10 mx-auto flex w-fit flex-col items-center gap-1 pb-7 text-emerald-300/80 transition hover:text-emerald-200"
             >
                 <span className="text-[11px] font-medium uppercase tracking-[0.3em]">Scroll</span>
                 <ChevronDown size={22} strokeWidth={1.75} />

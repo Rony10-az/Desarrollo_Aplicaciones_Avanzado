@@ -2,16 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'motion/react';
-import {
-    CalendarDays,
-    Dna,
-    Globe2,
-    LucideIcon,
-    MapPin,
-    Tag,
-    Tv,
-    VenusAndMars,
-} from 'lucide-react';
+import { Dna, Globe2, LucideIcon, MapPin, Tag, Tv, VenusAndMars } from 'lucide-react';
 import { Character } from '@/types/rickandmorty';
 import TiltCard from './TiltCard';
 import Tentacle from './Tentacle';
@@ -23,9 +14,16 @@ interface Trait {
     value: string;
 }
 
-const TENTACLE_ROWS = ['18%', '50%', '82%'] as const;
+// las 3 bandas donde los tentaculos conectan el retrato (280x320) con cada
+// ficha, igual que en el lienzo
+const TENTACLE_ROWS = ['58px', '147px', '236px'] as const;
 
 function quipFor(character: Character) {
+    // la frase original del lienzo era para Rick; para el resto usamos una
+    // version generica segun su estado, con el mismo tono de 4ta pared
+    if (character.id === 1) {
+        return 'No tengo tiempo de explicarte por qué soy el más listo del universo. Solo créeme.';
+    }
     if (character.status === 'Dead') return 'Sí, estoy muerto. Bienvenido a esta dimensión.';
     if (character.status === 'Alive')
         return 'Sigo vivo, para tu sorpresa. No le agradezcas al universo, agradéceme a mí.';
@@ -33,35 +31,21 @@ function quipFor(character: Character) {
 }
 
 function Chip({ trait, index, side }: { trait: Trait; index: number; side: 'left' | 'right' }) {
-    const fromX = side === 'left' ? 120 : -120; // entra desde el centro hacia su posición
+    const fromX = side === 'left' ? 140 : -140; // entra desde el centro hacia su posición
     const Icon = trait.icon;
 
     return (
         <motion.div
-            initial={{ opacity: 0, x: fromX, scale: 0.7 }}
+            initial={{ opacity: 0, x: fromX, scale: 0.85 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 90, damping: 14, delay: 0.5 + index * 0.15 }}
+            transition={{ duration: 0.6, delay: 0.55 + index * 0.13, ease: [0.2, 0.8, 0.2, 1] }}
+            className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4.5 py-3.5 text-left"
         >
-            {/* flotación continua, con desfase distinto por tarjeta */}
-            <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{
-                    duration: 3 + index * 0.5,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: index * 0.3,
-                }}
-                whileHover={{ scale: 1.06 }}
-                className="rounded-2xl border border-emerald-400/20 bg-slate-900/70 px-5 py-4 backdrop-blur-md shadow-lg hover:border-emerald-300/60 hover:shadow-emerald-500/20 transition-colors"
-            >
-                <p className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-emerald-400">
-                    <Icon size={14} strokeWidth={1.75} />
-                    {trait.label}
-                </p>
-                <p className="mt-1 text-lg font-semibold text-white wrap-break-word">
-                    {trait.value || '—'}
-                </p>
-            </motion.div>
+            <p className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-emerald-400">
+                <Icon size={13} strokeWidth={1.75} />
+                {trait.label}
+            </p>
+            <p className="mt-1 font-bold text-white wrap-break-word">{trait.value || '—'}</p>
         </motion.div>
     );
 }
@@ -96,83 +80,82 @@ export default function CharacterShowcase({ character }: { character: Character 
                     Personaje #{String(character.id).padStart(3, '0')} · {genderLabels[character.gender]} · {character.species}
                 </p>
 
-                <div className="mt-24 grid items-start gap-8 lg:mt-14 lg:grid-cols-[1fr_auto_1fr]">
-                    <div className="order-2 grid gap-5 lg:order-1">
+                <div className="mt-24 flex flex-wrap items-center justify-center gap-8 pb-10 lg:mt-14">
+                    <div className="order-2 grid w-[220px] gap-4 lg:order-1">
                         {left.map((trait, i) => (
                             <Chip key={trait.label} trait={trait} index={i} side="left" />
                         ))}
                     </div>
 
                     {/* Personaje al centro: tarjeta 3D con tentáculos y globo de diálogo */}
-                    <div className="order-1 mx-auto flex flex-col items-center lg:order-2">
+                    <motion.div
+                        className="relative order-1 mb-12 h-[280px] w-[245px] sm:h-[320px] sm:w-[280px] lg:order-2 lg:mb-0"
+                        initial={{ opacity: 0, scale: 0.5, rotate: -12 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ type: 'spring', stiffness: 80, damping: 12 }}
+                    >
                         <motion.div
-                            className="relative h-80 w-72 sm:h-104 sm:w-88"
-                            initial={{ opacity: 0, scale: 0.5, rotate: -12 }}
-                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                            transition={{ type: 'spring', stiffness: 80, damping: 12 }}
-                        >
-                            <motion.div
-                                aria-hidden
-                                className="absolute -inset-6 rounded-[2.5rem] bg-emerald-400/30 blur-3xl"
-                                animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.9, 0.5] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                            />
+                            aria-hidden
+                            className="absolute -inset-4 rounded-[2rem] bg-emerald-400/25 blur-3xl"
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.9, 0.5] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                        />
 
-                            {/* globo de diálogo */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.7, y: 10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                transition={{ type: 'spring', stiffness: 120, damping: 14, delay: 0.9 }}
-                                className="absolute -top-16 left-1/2 z-20 w-64 -translate-x-1/2 rounded-2xl bg-white px-4 py-3 text-sm font-medium text-slate-900 shadow-xl sm:-top-20 sm:left-auto sm:right-0 sm:translate-x-0"
-                            >
-                                {quipFor(character)}
-                                <span className="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 bg-white sm:left-auto sm:right-8 sm:translate-x-0" />
-                            </motion.div>
+                        {TENTACLE_ROWS.map((top, i) => (
+                            <Tentacle key={`l-${i}`} side="left" top={top} delay={0.9 + i * 0.15} />
+                        ))}
+                        {TENTACLE_ROWS.map((top, i) => (
+                            <Tentacle key={`r-${i}`} side="right" top={top} delay={0.95 + i * 0.15} />
+                        ))}
 
-                            {TENTACLE_ROWS.map((top, i) => (
-                                <Tentacle key={`l-${i}`} side="left" top={top} delay={0.9 + i * 0.12} />
-                            ))}
-                            {TENTACLE_ROWS.map((top, i) => (
-                                <Tentacle key={`r-${i}`} side="right" top={top} delay={0.9 + i * 0.12} />
-                            ))}
-
-                            <TiltCard className="h-full w-full">
-                                <div className="h-full w-full overflow-hidden rounded-4xl ring-2 ring-white/30 shadow-2xl shadow-black/60">
-                                    <Image
-                                        src={character.image}
-                                        alt={character.name}
-                                        width={300}
-                                        height={300}
-                                        priority
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
-                            </TiltCard>
-                        </motion.div>
-
-                        {/* estado y fecha de creación, debajo del retrato */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 1.3 }}
-                            className="mt-6 flex flex-col items-center gap-2"
-                        >
-                            <span className="flex items-center gap-2 whitespace-nowrap rounded-full bg-slate-950/95 px-5 py-2 text-sm font-medium text-white shadow-xl ring-1 ring-white/20">
-                                <span
-                                    className={`inline-block h-2.5 w-2.5 animate-pulse rounded-full ${statusStyles[character.status]}`}
+                        <TiltCard className="h-full w-full">
+                            <div className="h-full w-full overflow-hidden rounded-[28px] border-t-[3px] border-emerald-400 shadow-2xl shadow-black/60">
+                                <Image
+                                    src={character.image}
+                                    alt={character.name}
+                                    width={300}
+                                    height={300}
+                                    priority
+                                    className="h-full w-full object-cover"
                                 />
-                                {statusLabels[character.status]}
-                            </span>
-                            <span className="flex items-center gap-1.5 text-xs text-slate-400">
-                                <CalendarDays size={13} strokeWidth={1.75} />
-                                Creado el {new Date(character.created).toLocaleDateString('es-PE')}
-                            </span>
-                        </motion.div>
-                    </div>
+                            </div>
+                        </TiltCard>
 
-                    <div className="order-3 grid gap-5">
+                        {/* globo de diálogo */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.6, y: 8 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ type: 'spring', stiffness: 220, damping: 16, delay: 0.85 }}
+                            className="absolute -right-6 top-1.5 z-20 max-w-[170px] rounded-2xl rounded-bl-[4px] bg-[#0b0d16] px-3.5 py-2.5 text-[12.5px] leading-snug text-slate-100 shadow-xl ring-1 ring-white/20"
+                        >
+                            {quipFor(character)}
+                        </motion.div>
+
+                        {/* estado y fecha: montados sobre el borde inferior del retrato */}
+                        <motion.span
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.6 }}
+                            className="absolute -bottom-[18px] left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-[#020617] px-5 py-2 text-[13px] font-semibold text-white"
+                        >
+                            <span
+                                className={`inline-block h-2 w-2 animate-pulse rounded-full ${statusStyles[character.status]}`}
+                            />
+                            {statusLabels[character.status]}
+                        </motion.span>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.4, delay: 0.75 }}
+                            className="absolute -bottom-[42px] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap text-[11px] text-slate-500"
+                        >
+                            Creado el {new Date(character.created).toLocaleDateString('es-PE')}
+                        </motion.p>
+                    </motion.div>
+
+                    <div className="order-3 grid w-[220px] gap-4">
                         {right.map((trait, i) => (
-                            <Chip key={trait.label} trait={trait} index={i + 3} side="right" />
+                            <Chip key={trait.label} trait={trait} index={i} side="right" />
                         ))}
                     </div>
                 </div>
@@ -182,7 +165,7 @@ export default function CharacterShowcase({ character }: { character: Character 
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.2, duration: 0.6 }}
-                    className="mt-16"
+                    className="mt-6"
                 >
                     <p className="mb-3 flex items-center justify-center gap-2 text-center text-xs uppercase tracking-widest text-emerald-400">
                         <Tv size={14} strokeWidth={1.75} />

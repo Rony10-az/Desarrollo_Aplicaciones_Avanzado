@@ -177,9 +177,9 @@
 .rm-detail-bg {
   background:
     radial-gradient(ellipse 1100px 650px at 85% -10%, rgba(37, 99, 235, 0.24), transparent 60%),
-    radial-gradient(ellipse 900px 600px at 10% 60%, rgba(16, 185, 129, 0.18), transparent 60%),
-    radial-gradient(ellipse 800px 500px at 50% 110%, rgba(163, 230, 53, 0.14), transparent 60%),
-    #07060f;
+    radial-gradient(ellipse 900px 600px at 10% 60%, rgba(16, 185, 129, 0.14), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 50% 110%, rgba(163, 230, 53, 0.08), transparent 60%),
+    #05060d;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -214,6 +214,27 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rm-glitch {
+    animation: none;
+  }
+}
+
+/* Chips del Hero: a la deriva de un lado al otro, sin parar */
+@keyframes rm-drift {
+  from {
+    transform: translateX(-8%);
+  }
+  to {
+    transform: translateX(108%);
+  }
+}
+.rm-drift {
+  animation-name: rm-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-drift {
     animation: none;
   }
 }

@@ -32,16 +32,16 @@ export default function PortalTransition() {
 
     return (
         <section id="cruzar-portal" ref={ref} className="relative h-[260vh] scroll-mt-14">
-            <div className="sticky top-0 flex h-dvh items-center justify-center overflow-hidden bg-[#07060f]">
+            <div className="sticky top-0 flex h-dvh flex-col items-center justify-end overflow-hidden bg-[#05060d] px-6 pb-14 pt-14">
                 <Link
                     href="#"
-                    className="absolute left-6 top-6 z-40 text-sm font-medium text-white/70 transition hover:text-white"
+                    className="absolute left-8 top-6 z-40 text-sm text-cyan-200/80 transition hover:text-cyan-100"
                 >
-                    ← Hero
+                    Hero
                 </Link>
 
                 {/* fondo: tres fotos encadenadas */}
-                <motion.div aria-hidden style={{ scale: warpScale }} className="absolute inset-0">
+                <motion.div aria-hidden style={{ scale: warpScale }} className="absolute -inset-[14%]">
                     <motion.div style={{ opacity: bg1Opacity }} className="absolute inset-0">
                         <BackgroundPhoto src="/rickandmorty/chase.jpg" priority />
                     </motion.div>
@@ -51,57 +51,65 @@ export default function PortalTransition() {
                     <motion.div style={{ opacity: bg3Opacity }} className="absolute inset-0">
                         <BackgroundPhoto src="/rickandmorty/tunnel.jpg" />
                     </motion.div>
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background: 'linear-gradient(rgba(5,6,13,0.35), rgba(5,6,13,0.9))',
+                        }}
+                    />
                 </motion.div>
 
-                <div className="absolute inset-0 bg-linear-to-b from-[#07060f]/60 via-transparent to-[#07060f]/80" />
-
+                {/* flash radial: verde encendido que se apaga hacia afuera */}
                 <motion.div
                     aria-hidden
                     style={{ opacity: flashOpacity }}
-                    className="pointer-events-none absolute inset-0 z-20 bg-[#eaffd6]"
-                />
-
-                {/* subtítulos */}
-                <motion.div
-                    style={{ opacity: glitchOpacity }}
-                    className="absolute top-[16%] z-30 px-6 text-center"
+                    className="pointer-events-none absolute inset-0 z-20"
                 >
-                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-200/90">
-                        Señal interdimensional
-                    </p>
-                    <p className="rm-glitch mt-2 text-2xl font-bold text-white sm:text-3xl">
-                        No parpadees. Esto se pone raro.
-                    </p>
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background:
+                                'radial-gradient(circle, #eaffd6 0%, #39ff14 55%, transparent 100%)',
+                        }}
+                    />
                 </motion.div>
 
+                {/* subtítulo superior */}
                 <motion.p
-                    style={{ opacity: cap1Opacity }}
-                    className="absolute z-30 px-6 text-center text-xl font-semibold text-white sm:text-2xl"
+                    style={{ opacity: glitchOpacity }}
+                    className="rm-glitch absolute top-14 z-30 px-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-teal-200"
                 >
-                    Activando el portal
+                    Señal interdimensional
                 </motion.p>
 
-                <motion.p
-                    style={{ opacity: cap2Opacity }}
-                    className="absolute z-30 px-6 text-center text-xl font-semibold text-white sm:text-2xl"
-                >
-                    Calibrando coordenadas
-                </motion.p>
+                {/* captions, ancladas abajo como en el lienzo */}
+                <div className="relative z-30 max-w-xl text-center">
+                    <motion.p
+                        style={{ opacity: cap1Opacity }}
+                        className="absolute inset-0 flex items-center justify-center text-2xl font-bold"
+                    >
+                        Activando el portal
+                    </motion.p>
 
-                <motion.p
-                    style={{ opacity: cap3Opacity, scale: cap3Scale }}
-                    className="rm-title-glow absolute z-30 px-6 text-center text-3xl font-extrabold text-emerald-300 sm:text-5xl"
-                >
-                    Bienvenido a la Dimensión C-137
-                </motion.p>
+                    <motion.p
+                        style={{ opacity: cap2Opacity }}
+                        className="absolute inset-0 flex items-center justify-center text-2xl font-bold"
+                    >
+                        Calibrando coordenadas
+                    </motion.p>
+
+                    <motion.p
+                        style={{ opacity: cap3Opacity, scale: cap3Scale }}
+                        className="relative text-3xl font-extrabold text-[#bef264] [text-shadow:0_0_18px_rgba(163,230,53,0.6)]"
+                    >
+                        Bienvenido a la Dimensión C-137
+                    </motion.p>
+                </div>
 
                 <motion.a
                     href="#personajes"
-                    style={{
-                        opacity: ctaOpacity,
-                        background: 'linear-gradient(135deg,#a3e635,#34d399 55%,#0f9e8f)',
-                    }}
-                    className="absolute bottom-16 z-30 rounded-xl px-8 py-3.5 font-semibold text-slate-950 shadow-lg shadow-emerald-500/30"
+                    style={{ opacity: ctaOpacity }}
+                    className="relative z-30 mt-7 rounded-xl bg-[#0f6e56] px-7 py-3 font-bold text-[#eafff5]"
                     whileHover={{ scale: 1.05 }}
                 >
                     Continuar

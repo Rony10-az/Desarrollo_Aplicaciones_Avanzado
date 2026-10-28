@@ -252,17 +252,17 @@ export default function CharacterSearch({
                             </h3>
                             <span className="text-xs text-teal-300">← se desliza</span>
 
-                            <div className="pointer-events-none absolute -top-20 left-0 flex items-center gap-2 opacity-0 transition duration-300 group-hover/peek:opacity-100">
-                                <div className="h-10 w-10 overflow-hidden rounded-full ring-2 ring-white/30 shadow-lg">
+                            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 flex -translate-x-1/2 flex-col items-center gap-1.5 opacity-0 transition duration-300 group-hover/peek:opacity-100">
+                                <div className="h-11.5 w-11.5 overflow-hidden rounded-full ring-2 ring-emerald-400">
                                     <Image
                                         src="/rickandmorty/rick-throne.jpg"
                                         alt=""
-                                        width={40}
-                                        height={40}
+                                        width={46}
+                                        height={46}
                                         className="h-full w-full object-cover"
                                     />
                                 </div>
-                                <span className="whitespace-nowrap rounded-full bg-slate-950/90 px-3 py-1 text-xs text-slate-200 ring-1 ring-white/15">
+                                <span className="whitespace-nowrap rounded-[10px] bg-[#0b0d16] px-3.5 py-1.5 text-xs text-slate-200 ring-1 ring-white/20">
                                     Yo también soy una variante, por si no lo sabías.
                                 </span>
                             </div>
