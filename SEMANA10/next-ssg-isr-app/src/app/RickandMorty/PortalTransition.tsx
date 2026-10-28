@@ -1,9 +1,9 @@
 'use client'
 
 import { useRef } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'motion/react';
+import BackgroundPhoto from './BackgroundPhoto';
 
 /*
  * Secuencia cinematográfica dirigida por scroll: una sección alta (260vh)
@@ -43,13 +43,13 @@ export default function PortalTransition() {
                 {/* fondo: tres fotos encadenadas */}
                 <motion.div aria-hidden style={{ scale: warpScale }} className="absolute inset-0">
                     <motion.div style={{ opacity: bg1Opacity }} className="absolute inset-0">
-                        <Image src="/rickandmorty/chase.jpg" alt="" fill priority sizes="100vw" className="object-cover" />
+                        <BackgroundPhoto src="/rickandmorty/chase.jpg" priority />
                     </motion.div>
                     <motion.div style={{ opacity: bg2Opacity }} className="absolute inset-0">
-                        <Image src="/rickandmorty/falling.jpg" alt="" fill sizes="100vw" className="object-cover" />
+                        <BackgroundPhoto src="/rickandmorty/falling.jpg" />
                     </motion.div>
                     <motion.div style={{ opacity: bg3Opacity }} className="absolute inset-0">
-                        <Image src="/rickandmorty/tunnel.jpg" alt="" fill sizes="100vw" className="object-cover" />
+                        <BackgroundPhoto src="/rickandmorty/tunnel.jpg" />
                     </motion.div>
                 </motion.div>
 

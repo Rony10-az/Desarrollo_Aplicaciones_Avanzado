@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import { motion } from 'motion/react';
+import BackgroundPhoto from './BackgroundPhoto';
 import { drip } from './fonts';
 
 const INTRO_MS = 5600;
@@ -103,14 +104,7 @@ export default function Hero({ total }: { total: number }) {
 
             {/* fondo a página completa */}
             <div className="absolute inset-0 -z-10">
-                <Image
-                    src="/rickandmorty/landscape.jpg"
-                    alt=""
-                    fill
-                    priority
-                    sizes="100vw"
-                    className="object-cover"
-                />
+                <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority />
                 <div className="absolute inset-0 bg-linear-to-t from-[#07060f] via-[#07060f]/70 to-[#07060f]/20" />
                 <div className="absolute inset-0 bg-linear-to-r from-[#07060f]/70 via-transparent to-[#07060f]/40" />
             </div>

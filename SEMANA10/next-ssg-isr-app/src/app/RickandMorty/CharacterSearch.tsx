@@ -11,6 +11,7 @@ import {
 } from '@/types/rickandmorty';
 import { searchCharacters } from './search';
 import CharacterCarousel from './CharacterCarousel';
+import BackgroundPhoto from './BackgroundPhoto';
 
 const emptyFilters: CharacterFilters = { name: '', status: '', type: '', gender: '' };
 
@@ -120,12 +121,10 @@ export default function CharacterSearch({
                     transition={{ duration: 1.1, ease: [0.2, 0.8, 0.2, 1] }}
                     className="absolute inset-0"
                 >
-                    <Image
+                    <BackgroundPhoto
                         src="/rickandmorty/tunnel.jpg"
                         alt="El interior del túnel interdimensional por el que acabas de cruzar"
-                        fill
-                        sizes="100vw"
-                        className="object-cover object-[center_40%]"
+                        focusClassName="object-[center_40%]"
                     />
                 </motion.div>
                 <motion.div
@@ -244,7 +243,7 @@ export default function CharacterSearch({
                         fill
                         sizes="100vw"
                         aria-hidden
-                        className="object-cover opacity-10"
+                        className="scale-110 object-cover opacity-10 blur-md"
                     />
                     <div className="relative max-w-7xl mx-auto px-6 pt-4">
                         <div className="group/peek relative mb-3 flex items-baseline justify-between">
