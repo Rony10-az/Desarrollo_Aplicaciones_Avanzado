@@ -110,7 +110,7 @@ export default function Hero({ total }: { total: number }) {
     const contentDelay = skipIntro ? 0 : INTRO_MS / 1000;
 
     return (
-        <section className="relative isolate flex min-h-[calc(100dvh-57px)] flex-col overflow-hidden">
+        <section className="relative isolate flex min-h-[640px] flex-col overflow-hidden sm:min-h-[720px] lg:min-h-[800px]">
             {introVisible && (
                 <IntroOverlay
                     onDone={(reducedMotion) => {
@@ -122,7 +122,7 @@ export default function Hero({ total }: { total: number }) {
 
             {/* fondo a página completa, oscurecido hacia el texto (izquierda) */}
             <div className="absolute inset-0 -z-10">
-                <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority wide />
+                <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority />
                 <div
                     className="absolute inset-0"
                     style={{
