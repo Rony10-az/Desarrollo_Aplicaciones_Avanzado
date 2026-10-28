@@ -122,7 +122,7 @@ export default function Hero({ total }: { total: number }) {
 
             {/* fondo a página completa, oscurecido hacia el texto (izquierda) */}
             <div className="absolute inset-0 -z-10">
-                <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority />
+                <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority wide />
                 <div
                     className="absolute inset-0"
                     style={{
