@@ -26,6 +26,7 @@ export default function CharacterCarousel({
     const dir = reverse ? 1 : -1;
 
     const x = useMotionValue(0);
+    const containerRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLUListElement>(null);
     const half = useRef(0); // ancho de una copia de la lista
     const hovered = useRef(false);
@@ -56,6 +57,7 @@ export default function CharacterCarousel({
 
     return (
         <div
+            ref={containerRef}
             className="relative overflow-hidden py-6"
             style={{ maskImage: fade, WebkitMaskImage: fade }}
             onMouseEnter={() => (hovered.current = true)}
@@ -66,6 +68,8 @@ export default function CharacterCarousel({
                 style={{ x }}
                 drag={loop ? 'x' : false}
                 dragMomentum={false}
+                dragElastic={0.06}
+                dragConstraints={containerRef}
                 onDragStart={() => (dragging.current = true)}
                 onDragEnd={() => {
                     // se espera un instante para que el click del arrastre no abra una tarjeta

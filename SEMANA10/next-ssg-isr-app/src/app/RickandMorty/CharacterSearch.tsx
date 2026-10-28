@@ -108,7 +108,7 @@ export default function CharacterSearch({
     };
 
     return (
-        <section id="personajes" className="scroll-mt-20">
+        <section id="personajes" className="scroll-mt-20 pt-[57px]">
             {/* banner de llegada: la misma foto con la que termina el cruce del portal */}
             <motion.div
                 initial="hidden"

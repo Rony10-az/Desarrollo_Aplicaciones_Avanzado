@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 const links = [
     { href: '/RickandMorty', label: 'Inicio' },
-    { href: '/RickandMorty#personajes', label: 'Personajes' },
-    { href: '/RickandMorty#buscar', label: 'Buscar' },
+    { href: '/RickandMorty/lista', label: 'Personajes' },
+    { href: '/RickandMorty/lista#buscar', label: 'Buscar' },
 ];
 
 function PortalLogo() {
@@ -28,8 +28,10 @@ function PortalLogo() {
 export default function RickAndMortyLayout({ children }: { children: ReactNode }) {
     return (
         <div className="min-h-screen bg-[#07060f] text-slate-100">
-            <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07060f]/80 backdrop-blur-md">
-                <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+            {/* fija y transparente: el fondo de cada pantalla pasa detrás, no una
+                barra de color sólido encima */}
+            <header className="fixed inset-x-0 top-0 z-50 h-[57px] border-b border-white/10 bg-linear-to-b from-[#07060f]/70 to-transparent backdrop-blur-sm">
+                <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
                     <Link href="/RickandMorty" className="flex items-center gap-2.5">
                         <PortalLogo />
                         <span

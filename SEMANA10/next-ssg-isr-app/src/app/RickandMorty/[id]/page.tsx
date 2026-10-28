@@ -42,7 +42,7 @@ async function CharacterContent({ params }: CharacterPageProps) {
             <CharacterShowcase character={character} />
             <div className="pb-12 text-center">
                 <Link
-                    href="/RickandMorty"
+                    href="/RickandMorty/lista"
                     className="inline-block rounded-xl border border-white/20 px-8 py-3 font-semibold text-white transition hover:bg-white/10 hover:scale-105"
                 >
                     ← Volver a personajes

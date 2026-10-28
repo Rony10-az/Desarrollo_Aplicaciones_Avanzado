@@ -1,24 +1,12 @@
-import { getCharacters, getVariantCharacters } from './api';
-import CharacterSearch from './CharacterSearch';
+import { getCharacters } from './api';
 import Hero from './Hero';
-import PortalTransition from './PortalTransition';
 
 /*
- * Lista inicial: se obtiene en el servidor con cache: 'force-cache',
- * por lo que la respuesta se guarda en el build (SSG) y no se vuelve a
- * pedir a la API en cada visita. La búsqueda en tiempo real vive en el
- * componente cliente CharacterSearch (CSR).
+ * Portada: solo el Hero. Cruzar el portal y explorar personajes son
+ * páginas aparte a las que se llega con clic, no con scroll.
  */
 export default async function RickAndMortyPage() {
-    const [data, variants] = await Promise.all([getCharacters(1), getVariantCharacters()]);
+    const data = await getCharacters(1);
 
-    return (
-        <>
-            <Hero total={data.info.count} />
-            <PortalTransition />
-            <div className="pb-16 pt-8">
-                <CharacterSearch initialData={data} variants={variants} />
-            </div>
-        </>
-    );
+    return <Hero total={data.info.count} />;
 }

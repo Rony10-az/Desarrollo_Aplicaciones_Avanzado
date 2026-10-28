@@ -1,26 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import BackgroundPhoto from './BackgroundPhoto';
 import { drip } from './fonts';
 
 const INTRO_MS = 5600;
 
+// los tres se quedan del lado derecho (donde está la imagen), meciéndose
+// sin cruzar hacia el texto
 const chips = [
-    { src: '/rickandmorty/evil-morty.jpg', alt: 'Evil Morty', top: '16%', size: 60, duration: 42, delay: -4 },
+    { src: '/rickandmorty/evil-morty.jpg', alt: 'Evil Morty', top: '14%', left: '58%', size: 60, duration: 7, delay: 0, swayX: '55px', swayY: '-18px' },
     {
         src: '/rickandmorty/chase.jpg',
         alt: 'Rick y Morty escapando por un portal',
-        top: '68%',
+        top: '62%',
+        left: '82%',
         size: 50,
-        duration: 55,
-        delay: -18,
+        duration: 8.5,
+        delay: -3,
+        swayX: '-45px',
+        swayY: '20px',
         objectPosition: 'center 30%',
     },
-    { src: '/rickandmorty/falling.jpg', alt: 'Rick y Morty cayendo entre portales', top: '42%', size: 56, duration: 48, delay: -30 },
+    { src: '/rickandmorty/falling.jpg', alt: 'Rick y Morty cayendo entre portales', top: '38%', left: '92%', size: 56, duration: 9.5, delay: -6, swayX: '35px', swayY: '26px' },
 ];
 
 /*
@@ -120,9 +125,10 @@ export default function Hero({ total }: { total: number }) {
                 />
             )}
 
-            {/* fondo a página completa, oscurecido hacia el texto (izquierda) */}
+            {/* fondo a página completa, oscurecido hacia el texto (izquierda), llega
+                hasta arriba del todo: se ve detrás del navbar fijo y transparente */}
             <div className="absolute inset-0 -z-10">
-                <BackgroundPhoto src="/rickandmorty/landscape-hd.jpg" priority />
+                <BackgroundPhoto src="/rickandmorty/landscape.jpg" priority />
                 <div
                     className="absolute inset-0"
                     style={{
@@ -132,20 +138,24 @@ export default function Hero({ total }: { total: number }) {
                 />
             </div>
 
-            {/* chips flotantes: a la deriva de lado a lado, sin parar */}
+            {/* chips flotantes: del lado derecho, meciéndose sin cruzar al texto */}
             {chips.map((chip) => (
                 <div
                     key={chip.src}
                     aria-hidden
-                    className="rm-drift absolute hidden overflow-hidden rounded-full ring-2 ring-emerald-400/70 shadow-[0_0_16px_rgba(16,185,129,0.4)] sm:block"
-                    style={{
-                        top: chip.top,
-                        left: 0,
-                        width: chip.size,
-                        height: chip.size,
-                        animationDuration: `${chip.duration}s`,
-                        animationDelay: `${chip.delay}s`,
-                    }}
+                    className="rm-sway absolute hidden overflow-hidden rounded-full ring-2 ring-emerald-400/70 shadow-[0_0_16px_rgba(16,185,129,0.4)] sm:block"
+                    style={
+                        {
+                            top: chip.top,
+                            left: chip.left,
+                            width: chip.size,
+                            height: chip.size,
+                            animationDuration: `${chip.duration}s`,
+                            animationDelay: `${chip.delay}s`,
+                            '--sway-x': chip.swayX,
+                            '--sway-y': chip.swayY,
+                        } as CSSProperties
+                    }
                 >
                     <Image
                         src={chip.src}
@@ -199,18 +209,19 @@ export default function Hero({ total }: { total: number }) {
                         className="mt-10 flex flex-wrap items-center gap-7"
                     >
                         <div className="group/peek relative inline-flex">
-                            <motion.a
-                                href="#cruzar-portal"
-                                whileHover={{ scaleX: 1.1, scaleY: 0.92 }}
-                                whileTap={{ scaleX: 0.93, scaleY: 1.07 }}
-                                transition={{ type: 'spring', stiffness: 400, damping: 12 }}
-                                className="inline-block rounded-xl px-8 py-3.5 font-bold text-[#022c22] shadow-lg shadow-emerald-500/30"
-                                style={{
-                                    background: 'linear-gradient(135deg,#a3e635,#34d399 55%,#0f9e8f)',
-                                }}
-                            >
-                                Cruzar el portal
-                            </motion.a>
+                            <Link href="/RickandMorty/portal" className="inline-block">
+                                <motion.span
+                                    whileHover={{ scaleX: 1.1, scaleY: 0.92 }}
+                                    whileTap={{ scaleX: 0.93, scaleY: 1.07 }}
+                                    transition={{ type: 'spring', stiffness: 400, damping: 12 }}
+                                    className="inline-block rounded-xl px-8 py-3.5 font-bold text-[#022c22] shadow-lg shadow-emerald-500/30"
+                                    style={{
+                                        background: 'linear-gradient(135deg,#a3e635,#34d399 55%,#0f9e8f)',
+                                    }}
+                                >
+                                    Cruzar el portal
+                                </motion.span>
+                            </Link>
 
                             {/* easter egg: alguien te está viendo */}
                             <div className="pointer-events-none absolute inset-x-0 bottom-full mb-3 flex flex-col items-center gap-1.5 opacity-0 transition duration-300 group-hover/peek:opacity-100">
@@ -229,27 +240,15 @@ export default function Hero({ total }: { total: number }) {
                             </div>
                         </div>
 
-                        <a
-                            href="#personajes"
+                        <Link
+                            href="/RickandMorty/lista"
                             className="text-sm font-semibold text-slate-200 transition hover:text-emerald-300"
                         >
                             Explorar personajes →
-                        </a>
+                        </Link>
                     </motion.div>
                 </div>
             </div>
-
-            {/* Indicador de scroll hacia la secuencia del portal */}
-            <motion.a
-                href="#cruzar-portal"
-                aria-label="Desliza para cruzar el portal"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 mx-auto flex w-fit flex-col items-center gap-1 pb-7 text-emerald-300/80 transition hover:text-emerald-200"
-            >
-                <span className="text-[11px] font-medium uppercase tracking-[0.3em]">Scroll</span>
-                <ChevronDown size={22} strokeWidth={1.75} />
-            </motion.a>
         </section>
     );
 }

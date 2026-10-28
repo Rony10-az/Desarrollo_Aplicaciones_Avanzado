@@ -218,23 +218,24 @@
   }
 }
 
-/* Chips del Hero: a la deriva de un lado al otro, sin parar */
-@keyframes rm-drift {
+/* Chips del Hero: se mecen sin parar, pero sin cruzar hacia el texto */
+@keyframes rm-sway {
   from {
-    transform: translateX(-8%);
+    transform: translate(0, 0);
   }
   to {
-    transform: translateX(108%);
+    transform: translate(var(--sway-x, 70px), var(--sway-y, 16px));
   }
 }
-.rm-drift {
-  animation-name: rm-drift;
-  animation-timing-function: linear;
+.rm-sway {
+  animation-name: rm-sway;
+  animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rm-drift {
+  .rm-sway {
     animation: none;
   }
 }

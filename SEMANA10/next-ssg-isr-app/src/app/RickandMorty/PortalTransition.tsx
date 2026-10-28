@@ -1,120 +1,138 @@
 'use client'
 
-import { useRef } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { ArrowLeft } from 'lucide-react';
+import { motion } from 'motion/react';
 import BackgroundPhoto from './BackgroundPhoto';
 
 /*
- * Secuencia cinematográfica dirigida por scroll: una sección alta (260vh)
- * con un panel "sticky" adentro. El fondo va cruzando por tres fotos
- * (persecución → caída → túnel) con un pulso de zoom y un flash verde en
- * cada corte, mientras unos subtítulos van marcando el momento del viaje.
+ * Página propia a la que se llega con un clic (no con scroll): el cruce
+ * del portal se reproduce solo, una vez, en 8.6s —tres fotos encadenadas
+ * con un pulso de zoom y un flash verde en cada corte— y termina con el
+ * botón "Continuar" hacia la lista de personajes.
  */
 export default function PortalTransition() {
-    const ref = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-
-    const bg1Opacity = useTransform(scrollYProgress, [0, 0.26, 0.32], [1, 1, 0]);
-    const bg2Opacity = useTransform(scrollYProgress, [0.26, 0.32, 0.58, 0.64], [0, 1, 1, 0]);
-    const bg3Opacity = useTransform(scrollYProgress, [0.58, 0.64, 1], [0, 1, 1]);
-
-    const cutPoints = [0, 0.27, 0.3, 0.33, 0.59, 0.62, 0.65, 1];
-    const flashOpacity = useTransform(scrollYProgress, cutPoints, [0, 0, 0.9, 0, 0, 0.9, 0, 0]);
-    const warpScale = useTransform(scrollYProgress, cutPoints, [1, 1, 1.15, 1, 1, 1.15, 1, 1]);
-
-    const glitchOpacity = useTransform(scrollYProgress, [0, 0.05, 0.2, 0.26], [0, 1, 1, 0]);
-    const cap1Opacity = useTransform(scrollYProgress, [0.24, 0.29, 0.36, 0.4], [0, 1, 1, 0]);
-    const cap2Opacity = useTransform(scrollYProgress, [0.42, 0.47, 0.54, 0.58], [0, 1, 1, 0]);
-    const cap3Opacity = useTransform(scrollYProgress, [0.66, 0.72, 1], [0, 1, 1]);
-    const cap3Scale = useTransform(scrollYProgress, [0.66, 0.72], [0.9, 1]);
-    const ctaOpacity = useTransform(scrollYProgress, [0.85, 0.95, 1], [0, 1, 1]);
-
     return (
-        <section id="cruzar-portal" ref={ref} className="relative h-[260vh] scroll-mt-14">
-            <div className="sticky top-0 flex h-dvh flex-col items-center justify-end overflow-hidden bg-[#05060d] px-6 pb-14 pt-14">
-                <Link
-                    href="#"
-                    className="absolute left-8 top-6 z-40 text-sm text-cyan-200/80 transition hover:text-cyan-100"
-                >
-                    Hero
-                </Link>
+        <div className="flex h-dvh flex-col items-center justify-end overflow-hidden bg-[#05060d] px-6 pb-14 pt-20">
+            <Link
+                href="/RickandMorty"
+                className="absolute left-6 top-[73px] z-40 flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0b0d16]/80 px-3.5 py-2 text-sm text-cyan-200/90 backdrop-blur-sm transition hover:border-cyan-300/40 hover:text-cyan-100"
+            >
+                <ArrowLeft size={15} strokeWidth={2} />
+                Hero
+            </Link>
 
-                {/* fondo: tres fotos encadenadas */}
-                <motion.div aria-hidden style={{ scale: warpScale }} className="absolute -inset-[14%]">
-                    <motion.div style={{ opacity: bg1Opacity }} className="absolute inset-0">
-                        <BackgroundPhoto src="/rickandmorty/chase.jpg" priority />
-                    </motion.div>
-                    <motion.div style={{ opacity: bg2Opacity }} className="absolute inset-0">
-                        <BackgroundPhoto src="/rickandmorty/falling.jpg" />
-                    </motion.div>
-                    <motion.div style={{ opacity: bg3Opacity }} className="absolute inset-0">
-                        <BackgroundPhoto src="/rickandmorty/tunnel.jpg" />
-                    </motion.div>
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            background: 'linear-gradient(rgba(5,6,13,0.35), rgba(5,6,13,0.9))',
-                        }}
-                    />
-                </motion.div>
-
-                {/* flash radial: verde encendido que se apaga hacia afuera */}
+            {/* fondo: tres fotos encadenadas, con un pulso de zoom en cada corte */}
+            <motion.div
+                aria-hidden
+                className="absolute inset-0"
+                animate={{ scale: [1, 1.5, 1.15, 1.15, 1.5, 1.15, 1.15, 1.5, 1.18, 1.18] }}
+                transition={{
+                    duration: 8.6,
+                    times: [0, 0.09, 0.13, 0.46, 0.53, 0.58, 0.8, 0.87, 0.93, 1],
+                    ease: 'easeInOut',
+                }}
+            >
                 <motion.div
-                    aria-hidden
-                    style={{ opacity: flashOpacity }}
-                    className="pointer-events-none absolute inset-0 z-20"
+                    className="absolute inset-0"
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: 0.4, delay: 0.86 }}
                 >
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            background:
-                                'radial-gradient(circle, #eaffd6 0%, #39ff14 55%, transparent 100%)',
-                        }}
-                    />
+                    <BackgroundPhoto src="/rickandmorty/chase.jpg" priority focusClassName="object-[center_30%]" />
                 </motion.div>
-
-                {/* subtítulo superior */}
-                <motion.p
-                    style={{ opacity: glitchOpacity }}
-                    className="rm-glitch absolute top-14 z-30 px-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-teal-200"
+                <motion.div
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 1, 0] }}
+                    transition={{ duration: 4.56, delay: 1.03, times: [0, 0.03, 0.85, 1] }}
                 >
-                    Señal interdimensional
+                    <BackgroundPhoto src="/rickandmorty/falling.jpg" />
+                </motion.div>
+                <motion.div
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 4.73 }}
+                >
+                    <BackgroundPhoto src="/rickandmorty/tunnel.jpg" focusClassName="object-[center_40%]" />
+                </motion.div>
+                <div
+                    className="absolute inset-0"
+                    style={{ background: 'linear-gradient(rgba(5,6,13,0.35), rgba(5,6,13,0.9))' }}
+                />
+            </motion.div>
+
+            {/* flash radial: verde encendido que se apaga hacia afuera, en cada corte */}
+            <motion.div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0, 0.85, 0, 0, 0.8, 0, 0, 0.8, 0, 0] }}
+                transition={{
+                    duration: 8.6,
+                    times: [0, 0.06, 0.1, 0.14, 0.48, 0.53, 0.58, 0.83, 0.88, 0.93, 1],
+                }}
+            >
+                <div
+                    className="absolute inset-0"
+                    style={{ background: 'radial-gradient(circle, #eaffd6 0%, #39ff14 55%, transparent 100%)' }}
+                />
+            </motion.div>
+
+            {/* subtítulo superior: aparece con un parpadeo y se queda */}
+            <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                className="rm-glitch absolute top-20 z-30 px-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-teal-200"
+            >
+                Señal interdimensional
+            </motion.p>
+
+            {/* captions, ancladas abajo como en el lienzo */}
+            <div className="relative z-30 max-w-xl text-center">
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: [0, 1, 1, 0], y: [10, 0, 0, -8] }}
+                    transition={{ duration: 8.6, times: [0.14, 0.19, 0.45, 0.5] }}
+                    className="absolute inset-0 flex items-center justify-center text-2xl font-bold"
+                >
+                    Activando el portal
                 </motion.p>
 
-                {/* captions, ancladas abajo como en el lienzo */}
-                <div className="relative z-30 max-w-xl text-center">
-                    <motion.p
-                        style={{ opacity: cap1Opacity }}
-                        className="absolute inset-0 flex items-center justify-center text-2xl font-bold"
-                    >
-                        Activando el portal
-                    </motion.p>
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: [0, 1, 1, 0], y: [10, 0, 0, -8] }}
+                    transition={{ duration: 8.6, times: [0.53, 0.58, 0.78, 0.83] }}
+                    className="absolute inset-0 flex items-center justify-center text-2xl font-bold"
+                >
+                    Calibrando coordenadas
+                </motion.p>
 
-                    <motion.p
-                        style={{ opacity: cap2Opacity }}
-                        className="absolute inset-0 flex items-center justify-center text-2xl font-bold"
-                    >
-                        Calibrando coordenadas
-                    </motion.p>
+                <motion.p
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: 8.17 }}
+                    className="relative text-3xl font-extrabold text-[#bef264] [text-shadow:0_0_18px_rgba(163,230,53,0.6)]"
+                >
+                    Bienvenido a la Dimensión C-137
+                </motion.p>
+            </div>
 
-                    <motion.p
-                        style={{ opacity: cap3Opacity, scale: cap3Scale }}
-                        className="relative text-3xl font-extrabold text-[#bef264] [text-shadow:0_0_18px_rgba(163,230,53,0.6)]"
-                    >
-                        Bienvenido a la Dimensión C-137
-                    </motion.p>
-                </div>
-
-                <motion.a
-                    href="#personajes"
-                    style={{ opacity: ctaOpacity }}
-                    className="relative z-30 mt-7 rounded-xl bg-[#0f6e56] px-7 py-3 font-bold text-[#eafff5]"
-                    whileHover={{ scale: 1.05 }}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 8.6 }}
+                className="relative z-30 mt-7"
+            >
+                <Link
+                    href="/RickandMorty/lista"
+                    className="inline-block rounded-xl bg-[#0f6e56] px-7 py-3 font-bold text-[#eafff5] transition hover:scale-105"
                 >
                     Continuar
-                </motion.a>
-            </div>
-        </section>
+                </Link>
+            </motion.div>
+        </div>
     );
 }
