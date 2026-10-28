@@ -14,9 +14,16 @@ const fade = 'linear-gradient(to right, transparent, black 8%, black 92%, transp
  * se reinicia al llegar a la mitad, así el movimiento nunca se corta.
  * Con pocos resultados se muestra centrado y quieto.
  */
-export default function CharacterCarousel({ characters }: { characters: Character[] }) {
+export default function CharacterCarousel({
+    characters,
+    reverse = false,
+}: {
+    characters: Character[];
+    reverse?: boolean;
+}) {
     const loop = characters.length >= 6;
     const items = loop ? [...characters, ...characters] : characters;
+    const dir = reverse ? 1 : -1;
 
     const x = useMotionValue(0);
     const trackRef = useRef<HTMLUListElement>(null);
@@ -41,7 +48,7 @@ export default function CharacterCarousel({ characters }: { characters: Characte
         if (!loop || !half.current) return;
 
         let next = x.get();
-        if (!hovered.current && !dragging.current) next -= delta * SPEED;
+        if (!hovered.current && !dragging.current) next += dir * delta * SPEED;
         if (next <= -half.current) next += half.current;
         if (next > 0) next -= half.current;
         x.set(next);

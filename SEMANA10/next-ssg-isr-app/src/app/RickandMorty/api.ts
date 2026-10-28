@@ -8,6 +8,9 @@ const API = 'https://rickandmortyapi.com/api/character';
 
 const TEN_DAYS = 60 * 60 * 24 * 10; // 864000 s
 
+// Variantes del multiverso que se muestran en su propio carrusel en la lista
+const VARIANT_NAMES = ['Evil Morty', 'Rick Prime', 'Doofus Rick', 'Tiny Rick'];
+
 // La API responde 429 si se hacen muchas peticiones seguidas (pasa en el build).
 // Se reintenta con una espera creciente antes de rendirse.
 async function fetchWithRetry(url: string, init?: RequestInit): Promise<Response> {
@@ -43,6 +46,25 @@ async function getAllCharacters(): Promise<Character[]> {
     const res = await fetchWithRetry(`${API}/${ids.join(',')}`);
     if (!res.ok) throw new Error(`Error al cargar los personajes (${res.status})`);
     return res.json();
+}
+
+// Personajes "variantes" reales de la API (hay varios Rick/Morty catalogados
+// por separado): se busca cada nombre y se toma la coincidencia exacta.
+export async function getVariantCharacters(): Promise<Character[]> {
+    'use cache';
+    cacheLife({ stale: 3600, revalidate: TEN_DAYS, expire: TEN_DAYS * 2 });
+
+    const found = await Promise.all(
+        VARIANT_NAMES.map(async (name) => {
+            const res = await fetchWithRetry(`${API}?name=${encodeURIComponent(name)}`);
+            if (!res.ok) return null;
+            const data: CharacterListResponse = await res.json();
+            const exact = data.results.find((c) => c.name.toLowerCase() === name.toLowerCase());
+            return exact ?? data.results[0] ?? null;
+        })
+    );
+
+    return found.filter((c): c is Character => c !== null);
 }
 
 // Ids de todos los personajes para generateStaticParams

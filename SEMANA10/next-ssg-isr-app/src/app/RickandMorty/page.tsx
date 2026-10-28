@@ -1,4 +1,4 @@
-import { getCharacters } from './api';
+import { getCharacters, getVariantCharacters } from './api';
 import CharacterSearch from './CharacterSearch';
 import Hero from './Hero';
 import PortalTransition from './PortalTransition';
@@ -10,14 +10,14 @@ import PortalTransition from './PortalTransition';
  * componente cliente CharacterSearch (CSR).
  */
 export default async function RickAndMortyPage() {
-    const data = await getCharacters(1);
+    const [data, variants] = await Promise.all([getCharacters(1), getVariantCharacters()]);
 
     return (
         <>
             <Hero total={data.info.count} />
             <PortalTransition />
             <div className="pb-16 pt-8">
-                <CharacterSearch initialData={data} />
+                <CharacterSearch initialData={data} variants={variants} />
             </div>
         </>
     );

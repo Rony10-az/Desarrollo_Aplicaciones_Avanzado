@@ -158,3 +158,62 @@
     animation: none;
   }
 }
+
+/* Título con resplandor pulsante (Hero y Detalle) */
+@keyframes rm-title-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 14px rgba(57, 255, 20, 0.55), 0 0 3px rgba(57, 255, 20, 0.85);
+  }
+  50% {
+    text-shadow: 0 0 26px rgba(57, 255, 20, 0.85), 0 0 6px rgba(57, 255, 20, 1);
+  }
+}
+.rm-title-glow {
+  animation: rm-title-glow 3.2s ease-in-out infinite;
+}
+
+/* Detalle: degradados de color detrás de todo el body de la sección */
+.rm-detail-bg {
+  background:
+    radial-gradient(ellipse 1100px 650px at 85% -10%, rgba(37, 99, 235, 0.24), transparent 60%),
+    radial-gradient(ellipse 900px 600px at 10% 60%, rgba(16, 185, 129, 0.18), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 50% 110%, rgba(163, 230, 53, 0.14), transparent 60%),
+    #07060f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-title-glow {
+    animation: none;
+  }
+}
+
+/* Texto con parpadeo tipo interferencia (Portal) */
+@keyframes rm-glitch {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  42% {
+    opacity: 0.6;
+    transform: translateX(-2px);
+  }
+  44% {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+  46% {
+    opacity: 0.7;
+    transform: translateX(0);
+  }
+}
+.rm-glitch {
+  animation: rm-glitch 2.4s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-glitch {
+    animation: none;
+  }
+}

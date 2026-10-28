@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'motion/react';
 import {
     Character,
     CharacterFilters,
@@ -23,8 +25,10 @@ interface View {
 
 export default function CharacterSearch({
     initialData,
+    variants,
 }: {
     initialData: CharacterListResponse;
+    variants: Character[];
 }) {
     const [filters, setFilters] = useState<CharacterFilters>(emptyFilters);
     // base: lista inicial del servidor / found: resultado de la búsqueda
@@ -104,6 +108,47 @@ export default function CharacterSearch({
 
     return (
         <section id="personajes" className="scroll-mt-20">
+            {/* banner de llegada: la misma foto con la que termina el cruce del portal */}
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-80px' }}
+                className="relative mb-10 h-56 overflow-hidden sm:h-72"
+            >
+                <motion.div
+                    variants={{ hidden: { scale: 1.7 }, visible: { scale: 1 } }}
+                    transition={{ duration: 1.1, ease: [0.2, 0.8, 0.2, 1] }}
+                    className="absolute inset-0"
+                >
+                    <Image
+                        src="/rickandmorty/tunnel.jpg"
+                        alt="El interior del túnel interdimensional por el que acabas de cruzar"
+                        fill
+                        sizes="100vw"
+                        className="object-cover object-[center_40%]"
+                    />
+                </motion.div>
+                <motion.div
+                    variants={{ hidden: { opacity: 0.9 }, visible: { opacity: 0 } }}
+                    transition={{ duration: 0.7 }}
+                    aria-hidden
+                    className="absolute inset-0 bg-[#eaffd6]"
+                />
+                <div className="absolute inset-0 bg-linear-to-b from-[#07060f]/15 via-[#07060f]/55 to-[#07060f]" />
+                <motion.div
+                    variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="absolute inset-x-0 bottom-6 text-center"
+                >
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-200">
+                        Llegaste
+                    </p>
+                    <p className="mt-1.5 text-xl font-bold text-white sm:text-2xl">
+                        Esto es lo que encontraste del otro lado del portal.
+                    </p>
+                </motion.div>
+            </motion.div>
+
             <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-3xl font-bold text-white mb-2">Personajes</h2>
             <p className="text-slate-400 mb-8">
@@ -166,6 +211,11 @@ export default function CharacterSearch({
                     No se encontraron personajes con esos filtros.
                 </p>
             )}
+
+            <div className="mb-3 flex items-baseline justify-between">
+                <h3 className="text-base font-bold text-slate-200">Personajes principales</h3>
+                <span className="text-xs text-teal-300">se desliza →</span>
+            </div>
             </div>
 
             {/* El carrusel se alimenta del mismo estado que la búsqueda: siempre está sincronizado */}
@@ -175,7 +225,7 @@ export default function CharacterSearch({
             />
 
             {info.next && (
-                <div className="text-center mt-10">
+                <div className="max-w-7xl mx-auto px-6 text-center -mt-6 mb-16">
                     <button
                         onClick={loadMore}
                         disabled={loading}
@@ -183,6 +233,43 @@ export default function CharacterSearch({
                     >
                         {loading ? 'Cargando...' : 'Cargar más'}
                     </button>
+                </div>
+            )}
+
+            {variants.length > 0 && (
+                <div className="relative">
+                    <Image
+                        src="/rickandmorty/variant-texture.jpg"
+                        alt=""
+                        fill
+                        sizes="100vw"
+                        aria-hidden
+                        className="object-cover opacity-10"
+                    />
+                    <div className="relative max-w-7xl mx-auto px-6 pt-4">
+                        <div className="group/peek relative mb-3 flex items-baseline justify-between">
+                            <h3 className="text-base font-bold text-slate-200">
+                                Variantes del multiverso
+                            </h3>
+                            <span className="text-xs text-teal-300">← se desliza</span>
+
+                            <div className="pointer-events-none absolute -top-20 left-0 flex items-center gap-2 opacity-0 transition duration-300 group-hover/peek:opacity-100">
+                                <div className="h-10 w-10 overflow-hidden rounded-full ring-2 ring-white/30 shadow-lg">
+                                    <Image
+                                        src="/rickandmorty/rick-throne.jpg"
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                        className="h-full w-full object-cover"
+                                    />
+                                </div>
+                                <span className="whitespace-nowrap rounded-full bg-slate-950/90 px-3 py-1 text-xs text-slate-200 ring-1 ring-white/15">
+                                    Yo también soy una variante, por si no lo sabías.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <CharacterCarousel characters={variants} reverse />
                 </div>
             )}
         </section>
