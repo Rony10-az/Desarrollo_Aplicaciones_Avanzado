@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
 import { spineColorFor } from './spineColor';
-import { cardImageFor, OPEN_BOOK_IMAGE } from './libraryImages';
+import { cardImageFor, OPEN_BOOK_IMAGE, openLibraryCoverUrl } from './libraryImages';
 import { CloseIcon, EditIcon, TrashIcon, BookmarkIcon } from './icons';
 import type { AuthorOption, Book, BookFormValues } from './types';
 import { emptyBookForm } from './types';
@@ -45,6 +45,7 @@ export function BookModal({ mode, book, origin, authors, onClose, onEditRequeste
     const [form, setForm] = useState<BookFormValues>(() => bookToForm(book));
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [realCoverFailed, setRealCoverFailed] = useState(false);
     const bookRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -96,7 +97,9 @@ export function BookModal({ mode, book, origin, authors, onClose, onEditRequeste
 
     const seed = book ? book.title + book.id : 'nuevo-libro';
     const spine = spineColorFor(seed);
-    const coverImage = cardImageFor(seed);
+    const fallbackCoverImage = cardImageFor(seed);
+    const realCover = book?.isbn ? openLibraryCoverUrl(book.isbn) : null;
+    const showRealCover = Boolean(realCover) && !realCoverFailed;
     const isForm = mode === 'edit' || mode === 'create';
 
     return (
@@ -154,42 +157,77 @@ export function BookModal({ mode, book, origin, authors, onClose, onEditRequeste
                             boxShadow: '18px 0 40px -20px rgba(0,0,0,0.55)',
                         }}
                     >
-                        <Image
-                            src={coverImage}
-                            alt=""
-                            fill
-                            sizes="(min-width: 768px) 40vw, 100vw"
-                            className="object-cover"
-                        />
-                        <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0"
-                            style={{ backgroundColor: spine.bg, opacity: 0.8, mixBlendMode: 'multiply' }}
-                        />
-                        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/45" />
-                        {/* sombra de la bisagra, para que se sienta el lomo del libro */}
-                        <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/50 to-transparent"
-                        />
-
-                        <BookmarkIcon className="relative z-[1] h-7 w-7 text-stone-100 opacity-80" />
-                        <div className="relative z-[1]" style={{ color: spine.fg }}>
-                            <p className="font-serif text-3xl leading-[1.08] tracking-tight text-white [text-wrap:balance] sm:text-4xl">
-                                {mode === 'create' ? 'Nuevo volumen' : book?.title}
-                            </p>
-                            {mode !== 'create' && book && (
-                                <>
-                                    <p className="mt-3 text-sm text-stone-200">{book.author.name}</p>
-                                    {book.author.nationality && (
-                                        <p className="text-xs uppercase tracking-[0.14em] text-stone-300">{book.author.nationality}</p>
+                        {showRealCover ? (
+                            <>
+                                {/* portada real del libro (Open Library), limpia */}
+                                <Image
+                                    src={realCover!}
+                                    alt=""
+                                    fill
+                                    sizes="(min-width: 768px) 40vw, 100vw"
+                                    className="object-cover"
+                                    onError={() => setRealCoverFailed(true)}
+                                />
+                                <div
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/40 to-transparent"
+                                />
+                                <BookmarkIcon className="relative z-[1] h-7 w-7 text-white drop-shadow" />
+                                <div className="relative z-[1] mt-auto -mx-9 -mb-9 bg-stone-950/85 px-9 py-6 backdrop-blur-sm sm:-mx-12 sm:-mb-12 sm:px-12">
+                                    <p className="font-serif text-2xl leading-[1.1] tracking-tight text-white [text-wrap:balance] sm:text-3xl">
+                                        {mode === 'create' ? 'Nuevo volumen' : book?.title}
+                                    </p>
+                                    {mode !== 'create' && book && (
+                                        <>
+                                            <p className="mt-2 text-sm text-stone-200">{book.author.name}</p>
+                                            {book.author.nationality && (
+                                                <p className="text-xs uppercase tracking-[0.14em] text-stone-400">{book.author.nationality}</p>
+                                            )}
+                                        </>
                                     )}
-                                </>
-                            )}
-                        </div>
-                        <p className="relative z-[1] text-[11px] uppercase tracking-[0.2em] text-stone-300">
-                            {mode === 'create' ? 'Catalogacion' : 'Ficha bibliografica'}
-                        </p>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                {/* respaldo: textura + velo de color de la coleccion */}
+                                <Image
+                                    src={fallbackCoverImage}
+                                    alt=""
+                                    fill
+                                    sizes="(min-width: 768px) 40vw, 100vw"
+                                    className="object-cover"
+                                />
+                                <div
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-0"
+                                    style={{ backgroundColor: spine.bg, opacity: 0.45, mixBlendMode: 'multiply' }}
+                                />
+                                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-black/20" />
+                                {/* sombra de la bisagra, para que se sienta el lomo del libro */}
+                                <div
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/50 to-transparent"
+                                />
+
+                                <BookmarkIcon className="relative z-[1] h-7 w-7 text-stone-100 opacity-80" />
+                                <div className="relative z-[1]" style={{ color: spine.fg }}>
+                                    <p className="font-serif text-3xl leading-[1.08] tracking-tight text-white [text-wrap:balance] sm:text-4xl">
+                                        {mode === 'create' ? 'Nuevo volumen' : book?.title}
+                                    </p>
+                                    {mode !== 'create' && book && (
+                                        <>
+                                            <p className="mt-3 text-sm text-stone-200">{book.author.name}</p>
+                                            {book.author.nationality && (
+                                                <p className="text-xs uppercase tracking-[0.14em] text-stone-300">{book.author.nationality}</p>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
+                                <p className="relative z-[1] text-[11px] uppercase tracking-[0.2em] text-stone-300">
+                                    {mode === 'create' ? 'Catalogacion' : 'Ficha bibliografica'}
+                                </p>
+                            </>
+                        )}
                     </div>
 
                     {/* paginas: panel de contenido, con textura de papel de fondo */}

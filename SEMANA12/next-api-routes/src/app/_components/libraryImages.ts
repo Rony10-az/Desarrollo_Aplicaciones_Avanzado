@@ -26,3 +26,11 @@ export function cardImageFor(seed: string): string {
     }
     return CARD_IMAGES[hash % CARD_IMAGES.length];
 }
+
+// Portada real del libro (Open Library Covers API, publica y sin API key).
+// ?default=false hace que devuelva 404 en vez de un placeholder cuando no hay
+// portada para ese ISBN -- asi el <Image onError> puede caer al diseno de lomo.
+export function openLibraryCoverUrl(isbn: string): string {
+    const clean = isbn.replace(/[^0-9Xx]/g, '');
+    return `https://covers.openlibrary.org/b/isbn/${clean}-L.jpg?default=false`;
+}

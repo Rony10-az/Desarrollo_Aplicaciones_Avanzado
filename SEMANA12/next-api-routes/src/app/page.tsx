@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { connection } from 'next/server';
 import { db } from '@/prisma/db';
 import { LibraryExplorer } from './_components/LibraryExplorer';
+import { CatalogSkeleton } from './_components/CatalogSkeleton';
 import type { Book } from './_components/types';
 
 export const metadata: Metadata = {
@@ -9,9 +11,21 @@ export const metadata: Metadata = {
     description: 'Explora, agrega y edita el catalogo de libros y autores.',
 };
 
+export default function HomePage() {
+    // La carga real vive en <Catalog>, un componente servidor aparte, para que
+    // Next pueda emitir el shell estatico (el fallback) de inmediato y recien
+    // ahi esperar por connection()/la consulta -- en vez de bloquear toda la
+    // ruta. Es la solucion que el propio aviso de prerender sugiere ([stream]).
+    return (
+        <Suspense fallback={<CatalogSkeleton />}>
+            <Catalog />
+        </Suspense>
+    );
+}
+
 const PAGE_SIZE = 10;
 
-export default async function HomePage() {
+async function Catalog() {
     // El catalogo cambia con cada CRUD que esta misma pagina ofrece, asi que no
     // tiene sentido pre-renderizarlo estaticamente: siempre se calcula por request.
     await connection();
