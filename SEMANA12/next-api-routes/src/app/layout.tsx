@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono, Fraunces } from "next/font/google";
+import { SiteNav } from "./_components/SiteNav";
 import "./globals.css";
 
 // Plus Jakarta Sans en vez de Geist: trazo mas humano y calido para texto de
@@ -32,7 +33,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${bodySans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SiteNav />
+        {children}
+      </body>
     </html>
   );
 }

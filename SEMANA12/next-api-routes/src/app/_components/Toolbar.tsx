@@ -55,7 +55,7 @@ function Select({
 
 export function Toolbar({ genres, authors, genre, authorName, sort, onGenreChange, onAuthorChange, onSortChange, onCreate }: Props) {
     return (
-        <div className="sticky top-0 z-20 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
+        <div className="sticky top-[57px] z-20 border-b border-stone-200/70 bg-stone-50/85 backdrop-blur-md">
             <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-3 px-6 py-4 sm:px-10 lg:px-16">
                 <Select ariaLabel="Filtrar por genero" value={genre} onChange={onGenreChange}>
                     <option value="">Todos los generos</option>

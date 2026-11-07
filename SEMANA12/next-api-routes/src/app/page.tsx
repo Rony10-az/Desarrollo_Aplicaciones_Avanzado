@@ -2,63 +2,55 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { connection } from 'next/server';
 import { db } from '@/prisma/db';
-import { LibraryExplorer } from './_components/LibraryExplorer';
-import { CatalogSkeleton } from './_components/CatalogSkeleton';
-import type { Book } from './_components/types';
+import { AuthorsBoard } from './_components/AuthorsBoard';
+import { DashboardSkeleton } from './_components/DashboardSkeleton';
+import type { Author } from './_components/types';
 
 export const metadata: Metadata = {
-    title: 'La Biblioteca',
-    description: 'Explora, agrega y edita el catalogo de libros y autores.',
+    title: 'Panel — La Biblioteca',
+    description: 'Crea, edita y elimina autores; mira las estadisticas generales del catalogo.',
 };
 
 export default function HomePage() {
-    // La carga real vive en <Catalog>, un componente servidor aparte, para que
-    // Next pueda emitir el shell estatico (el fallback) de inmediato y recien
-    // ahi esperar por connection()/la consulta -- en vez de bloquear toda la
-    // ruta. Es la solucion que el propio aviso de prerender sugiere ([stream]).
     return (
-        <Suspense fallback={<CatalogSkeleton />}>
-            <Catalog />
+        <Suspense fallback={<DashboardSkeleton />}>
+            <Dashboard />
         </Suspense>
     );
 }
 
-const PAGE_SIZE = 10;
-
-async function Catalog() {
-    // El catalogo cambia con cada CRUD que esta misma pagina ofrece, asi que no
-    // tiene sentido pre-renderizarlo estaticamente: siempre se calcula por request.
+async function Dashboard() {
+    // El panel cambia con cada CRUD que ofrece, asi que no tiene sentido
+    // pre-renderizarlo estaticamente: siempre se calcula por request.
     await connection();
 
-    const [initialBooks, { total }, genreRows, authorRows] = await Promise.all([
-        db.orm.public.Book
-            .include('author', (author) => author.select('id', 'name', 'nationality'))
-            .orderBy((b) => b.createdAt.desc())
-            .limit(PAGE_SIZE)
-            .offset(0)
+    const [authors, authorCount, bookCount, { totalPages }, genreRows] = await Promise.all([
+        db.orm.public.Author
+            .include('books', (books) =>
+                books.combine({
+                    items: books.select('id', 'title', 'publishedYear'),
+                    count: books.count(),
+                }),
+            )
+            .orderBy((a) => a.name.asc())
             .all(),
+        db.orm.public.Author.aggregate((aggregate) => ({ total: aggregate.count() })),
         db.orm.public.Book.aggregate((aggregate) => ({ total: aggregate.count() })),
+        db.orm.public.Book.aggregate((aggregate) => ({ totalPages: aggregate.sum('pages') })),
         db.orm.public.Book.select('genre').all(),
-        db.orm.public.Author.select('id', 'name').orderBy((a) => a.name.asc()).all(),
     ]);
 
-    const genres = [...new Set(genreRows.map((row) => row.genre).filter((g): g is string => Boolean(g)))].sort();
-    const totalPages = Math.ceil(total / PAGE_SIZE) || 0;
+    const totalGenres = new Set(genreRows.map((row) => row.genre).filter(Boolean)).size;
 
     return (
-        <LibraryExplorer
-            initialBooks={initialBooks as Book[]}
-            initialPagination={{
-                page: 1,
-                limit: PAGE_SIZE,
-                total,
-                totalPages,
-                hasNext: totalPages > 1,
-                hasPrev: false,
+        <AuthorsBoard
+            initialAuthors={authors as unknown as Author[]}
+            stats={{
+                totalAuthors: authorCount.total,
+                totalBooks: bookCount.total,
+                totalPages: totalPages ?? 0,
+                totalGenres,
             }}
-            initialGenres={genres}
-            initialAuthors={authorRows}
-            catalogSize={total}
         />
     );
 }

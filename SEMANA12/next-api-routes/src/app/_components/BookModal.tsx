@@ -42,7 +42,16 @@ export function BookModal({ mode, book, origin, authors, onClose, onEditRequeste
     // El padre monta este componente con `key={mode + (book?.id ?? 'new')}`, asi que un
     // cambio de libro o de modo remonta el formulario con su estado inicial correcto,
     // en vez de sincronizarlo con un efecto.
-    const [form, setForm] = useState<BookFormValues>(() => bookToForm(book));
+    const [form, setForm] = useState<BookFormValues>(() => {
+        const base = bookToForm(book);
+        // Si solo hay un autor posible (p. ej. "Agregar libro" desde la ficha
+        // de un autor), lo preseleccionamos: no tiene sentido pedir elegir
+        // entre una sola opcion.
+        if (!base.authorId && authors.length === 1) {
+            return { ...base, authorId: authors[0]!.id };
+        }
+        return base;
+    });
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [realCoverFailed, setRealCoverFailed] = useState(false);
