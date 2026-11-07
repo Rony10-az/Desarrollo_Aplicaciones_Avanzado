@@ -18,6 +18,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Claude Code
+.claude/
+
 # Archivos Word
 *.doc
 *.docx
