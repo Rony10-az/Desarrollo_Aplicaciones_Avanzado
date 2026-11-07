@@ -6,13 +6,10 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
   },
   images: {
+    // Las fotos fijas (hero, tarjetas, textura de pagina) ahora viven en
+    // public/images/ -- solo las portadas reales de libros (por ISBN,
+    // dinamicas, no se pueden pre-descargar) siguen viniendo de afuera.
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
-      },
       {
         protocol: "https",
         hostname: "covers.openlibrary.org",
