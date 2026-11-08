@@ -44,7 +44,7 @@ async function AuthorPageContent({ params }: { params: Params }) {
     // y el modal del libro grande.
     const books: Book[] = author.books.map((book) => ({
         ...book,
-        author: { id: author.id, name: author.name, nationality: author.nationality },
+        author: { id: author.id, name: author.name, nationality: author.nationality, photoUrl: author.photoUrl },
     }));
 
     return <AuthorDetail author={author} books={books} stats={stats} />;

@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     const [data, { total }] = await Promise.all([
         base
-            .include('author', (author) => author.select('id', 'name', 'nationality'))
+            .include('author', (author) => author.select('id', 'name', 'nationality', 'photoUrl'))
             .orderBy(orderByField(db.orm.public.Book, sortBy, order, SORTABLE_FIELDS))
             .limit(limit)
             .offset(offset)

@@ -45,7 +45,7 @@ export function AuthorDetail({ author: initialAuthor, books: initialBooks, stats
         ]);
         if (booksRes.ok) {
             const rawBooks: Omit<Book, 'author'>[] = await booksRes.json();
-            setBooks(rawBooks.map((book) => ({ ...book, author: { id: author.id, name: author.name, nationality: author.nationality } })));
+            setBooks(rawBooks.map((book) => ({ ...book, author: { id: author.id, name: author.name, nationality: author.nationality, photoUrl: author.photoUrl } })));
         }
         if (statsRes.ok) setStats(await statsRes.json());
     }
@@ -57,6 +57,7 @@ export function AuthorDetail({ author: initialAuthor, books: initialBooks, stats
             bio: values.bio.trim() || undefined,
             nationality: values.nationality.trim() || undefined,
             birthYear: values.birthYear ? Number(values.birthYear) : undefined,
+            photoUrl: values.photoUrl.trim() || undefined,
         };
 
         const response = await fetch(`/api/authors/${author.id}`, {
@@ -72,7 +73,7 @@ export function AuthorDetail({ author: initialAuthor, books: initialBooks, stats
 
         const updated = await response.json();
         setAuthor((prev) => ({ ...prev, ...updated }));
-        setBooks((prev) => prev.map((b) => ({ ...b, author: { id: updated.id, name: updated.name, nationality: updated.nationality } })));
+        setBooks((prev) => prev.map((b) => ({ ...b, author: { id: updated.id, name: updated.name, nationality: updated.nationality, photoUrl: updated.photoUrl } })));
         setEditingAuthor(false);
         router.refresh();
     }
@@ -140,6 +141,7 @@ export function AuthorDetail({ author: initialAuthor, books: initialBooks, stats
                                     src={photo!}
                                     alt=""
                                     fill
+                                    unoptimized={Boolean(author.photoUrl)}
                                     sizes="(min-width: 768px) 40vw, 100vw"
                                     className="object-cover object-top"
                                     onError={() => setPhotoFailed(true)}

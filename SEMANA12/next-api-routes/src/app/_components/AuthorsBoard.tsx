@@ -40,6 +40,7 @@ export function AuthorsBoard({ initialAuthors, stats }: { initialAuthors: Author
             bio: values.bio.trim() || undefined,
             nationality: values.nationality.trim() || undefined,
             birthYear: values.birthYear ? Number(values.birthYear) : undefined,
+            photoUrl: values.photoUrl.trim() || undefined,
         };
 
         const isEdit = modal?.mode === 'edit';

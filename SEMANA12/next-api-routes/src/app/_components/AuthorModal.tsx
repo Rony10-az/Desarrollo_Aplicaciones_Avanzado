@@ -1,7 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState, type FormEvent } from 'react';
 import { spineColorFor } from './spineColor';
+import { authorPhotoFor } from './authorPhotos';
 import { CloseIcon } from './icons';
 import type { AuthorBase, AuthorFormValues } from './types';
 import { emptyAuthorForm } from './types';
@@ -23,6 +25,7 @@ function authorToForm(author: AuthorBase | null): AuthorFormValues {
         bio: author.bio ?? '',
         nationality: author.nationality ?? '',
         birthYear: author.birthYear?.toString() ?? '',
+        photoUrl: author.photoUrl ?? '',
     };
 }
 
@@ -31,6 +34,7 @@ export function AuthorModal({ mode, author, onClose, onSubmit }: Props) {
     const [form, setForm] = useState<AuthorFormValues>(() => authorToForm(author));
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [previewFailed, setPreviewFailed] = useState(false);
 
     useEffect(() => {
         const raf = requestAnimationFrame(() => setRevealed(true));
@@ -67,6 +71,8 @@ export function AuthorModal({ mode, author, onClose, onSubmit }: Props) {
 
     const spine = spineColorFor(form.name || 'nuevo-autor');
     const initial = (form.name.trim()[0] ?? 'A').toUpperCase();
+    const previewPhoto = form.photoUrl.trim() || authorPhotoFor(form.name);
+    const showPreviewPhoto = Boolean(previewPhoto) && !previewFailed;
 
     return (
         <div
@@ -92,11 +98,25 @@ export function AuthorModal({ mode, author, onClose, onSubmit }: Props) {
                 </button>
 
                 <div
-                    className="flex min-h-[140px] flex-col justify-end p-7 sm:min-h-full"
+                    className="relative flex min-h-[140px] flex-col justify-end overflow-hidden p-7 sm:min-h-full"
                     style={{ backgroundColor: spine.bg, color: spine.fg }}
                 >
-                    <span className="font-serif text-5xl">{initial}</span>
-                    <p className="mt-2 text-xs uppercase tracking-[0.2em] opacity-60">
+                    {showPreviewPhoto && (
+                        <>
+                            <Image
+                                src={previewPhoto!}
+                                alt=""
+                                fill
+                                unoptimized={Boolean(form.photoUrl.trim())}
+                                sizes="(min-width: 640px) 220px, 100vw"
+                                className="object-cover object-top"
+                                onError={() => setPreviewFailed(true)}
+                            />
+                            <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        </>
+                    )}
+                    {!showPreviewPhoto && <span className="relative font-serif text-5xl">{initial}</span>}
+                    <p className={`relative mt-2 text-xs uppercase tracking-[0.2em] ${showPreviewPhoto ? 'text-white/70' : 'opacity-60'}`}>
                         {mode === 'create' ? 'Nuevo autor' : 'Editar autor'}
                     </p>
                 </div>
@@ -128,6 +148,23 @@ export function AuthorModal({ mode, author, onClose, onSubmit }: Props) {
                             placeholder="autor@example.com"
                             className="rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-800 outline-none transition-colors focus:border-amber-700"
                             required
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <label htmlFor="a-photoUrl" className="text-xs font-medium uppercase tracking-wide text-stone-500">
+                            Foto (URL)
+                        </label>
+                        <input
+                            id="a-photoUrl"
+                            type="url"
+                            value={form.photoUrl}
+                            onChange={(e) => {
+                                setPreviewFailed(false);
+                                setForm((f) => ({ ...f, photoUrl: e.target.value }));
+                            }}
+                            placeholder="https://..."
+                            className="rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-800 outline-none transition-colors focus:border-amber-700"
                         />
                     </div>
 

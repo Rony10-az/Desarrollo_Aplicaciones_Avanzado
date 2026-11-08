@@ -10,7 +10,7 @@ export async function GET(
 
     const book = await db.orm.public.Book
         .where({ id })
-        .include('author', (author) => author.select('id', 'name', 'email'))
+        .include('author', (author) => author.select('id', 'name', 'email', 'photoUrl'))
         .first();
 
     if (!book) {

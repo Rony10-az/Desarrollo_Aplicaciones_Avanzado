@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'9405d385af622b7481b5bec3f419e591abb702cd554f6ac9b6835f3bc460829b'>;
+  StorageHashBase<'44ce1ff685257815a16687c6e5a7a36174f51044c7f40eff8fa344b8ae38f3dc'>;
 export type ExecutionHash =
   ExecutionHashBase<'a5acbdc0cf15a8cad6957be419364708fba048a2dfed4596f34a8459d155d133'>;
 export type ProfileHash =
@@ -317,6 +317,7 @@ export namespace Models {
     id: FieldOutputTypes['public']['Author']['id'];
     name: FieldOutputTypes['public']['Author']['name'];
     nationality: FieldOutputTypes['public']['Author']['nationality'];
+    photoUrl: FieldOutputTypes['public']['Author']['photoUrl'];
     updatedAt: FieldOutputTypes['public']['Author']['updatedAt'];
     books: public_Book[];
     readonly [RelationKeys]?: 'books';
@@ -404,6 +405,12 @@ type ContractBase = Omit<
                   readonly many: false;
                 };
                 readonly nationality: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                  readonly many: false;
+                };
+                readonly photoUrl: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -591,6 +598,10 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly photoUrl: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly updatedAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -621,6 +632,7 @@ type ContractBase = Omit<
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
                 readonly nationality: { readonly column: 'nationality' };
+                readonly photoUrl: { readonly column: 'photoUrl' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
             };

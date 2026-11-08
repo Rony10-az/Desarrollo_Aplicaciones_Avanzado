@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
 import { spineColorFor } from './spineColor';
 import { cardImageFor, OPEN_BOOK_IMAGE, openLibraryCoverUrl } from './libraryImages';
+import { AuthorAvatar } from './AuthorAvatar';
 import { CloseIcon, EditIcon, TrashIcon, BookmarkIcon } from './icons';
 import type { AuthorOption, Book, BookFormValues } from './types';
 import { emptyBookForm } from './types';
@@ -188,9 +189,12 @@ export function BookModal({ mode, book, origin, authors, onClose, onEditRequeste
                                     </p>
                                     {mode !== 'create' && book && (
                                         <>
-                                            <p className="mt-2 text-sm text-stone-200">{book.author.name}</p>
+                                            <p className="mt-2 flex items-center gap-2 text-sm text-stone-200">
+                                                <AuthorAvatar name={book.author.name} id={book.author.id} photoUrl={book.author.photoUrl} size={24} />
+                                                {book.author.name}
+                                            </p>
                                             {book.author.nationality && (
-                                                <p className="text-xs uppercase tracking-[0.14em] text-stone-400">{book.author.nationality}</p>
+                                                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-stone-400">{book.author.nationality}</p>
                                             )}
                                         </>
                                     )}
@@ -225,9 +229,12 @@ export function BookModal({ mode, book, origin, authors, onClose, onEditRequeste
                                     </p>
                                     {mode !== 'create' && book && (
                                         <>
-                                            <p className="mt-3 text-sm text-stone-200">{book.author.name}</p>
+                                            <p className="mt-3 flex items-center gap-2 text-sm text-stone-200">
+                                                <AuthorAvatar name={book.author.name} id={book.author.id} photoUrl={book.author.photoUrl} size={24} />
+                                                {book.author.name}
+                                            </p>
                                             {book.author.nationality && (
-                                                <p className="text-xs uppercase tracking-[0.14em] text-stone-300">{book.author.nationality}</p>
+                                                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-stone-300">{book.author.nationality}</p>
                                             )}
                                         </>
                                     )}

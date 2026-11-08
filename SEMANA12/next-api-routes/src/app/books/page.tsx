@@ -32,7 +32,7 @@ async function Catalog() {
 
     const [initialBooks, { total }, genreRows, authorRows] = await Promise.all([
         db.orm.public.Book
-            .include('author', (author) => author.select('id', 'name', 'nationality'))
+            .include('author', (author) => author.select('id', 'name', 'nationality', 'photoUrl'))
             .orderBy((b) => b.createdAt.desc())
             .limit(PAGE_SIZE)
             .offset(0)

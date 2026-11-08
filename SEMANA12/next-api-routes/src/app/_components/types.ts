@@ -16,6 +16,7 @@ export type AuthorBase = {
     bio: string | null;
     nationality: string | null;
     birthYear: number | null;
+    photoUrl: string | null;
     createdAt: string | Date;
     updatedAt: string | Date;
 };
@@ -30,6 +31,7 @@ export type AuthorFormValues = {
     bio: string;
     nationality: string;
     birthYear: string;
+    photoUrl: string;
 };
 
 export const emptyAuthorForm: AuthorFormValues = {
@@ -38,6 +40,7 @@ export const emptyAuthorForm: AuthorFormValues = {
     bio: '',
     nationality: '',
     birthYear: '',
+    photoUrl: '',
 };
 
 // Forma que devuelve GET /api/authors/[id]: el autor con sus libros
@@ -63,6 +66,7 @@ export type BookAuthor = {
     id: string;
     name: string;
     nationality: string | null;
+    photoUrl: string | null;
 };
 
 export type Book = {

@@ -27,7 +27,7 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name, email, bio, nationality, birthYear } = body;
+        const { name, email, bio, nationality, birthYear, photoUrl } = body;
 
         // validacion basica
         if (!name || !email) {
@@ -45,6 +45,7 @@ export async function POST(request: Request) {
             bio: bio ?? null,
             nationality: nationality ?? null,
             birthYear: birthYear ? parseInt(birthYear, 10) : null,
+            photoUrl: photoUrl?.trim() || null,
         });
 
         return NextResponse.json(author, { status: 201 });

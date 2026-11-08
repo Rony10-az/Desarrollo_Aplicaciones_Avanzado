@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRef, useState, type MouseEvent } from 'react';
 import { spineColorFor } from './spineColor';
 import { cardImageFor, openLibraryCoverUrl } from './libraryImages';
+import { AuthorAvatar } from './AuthorAvatar';
 import { MagnifierIcon, EditIcon, TrashIcon } from './icons';
 import type { Book } from './types';
 
@@ -108,7 +109,10 @@ export function BookSpineCard({ book, index, onOpen, onEdit, onDelete }: Props) 
                         <p className="font-serif text-base leading-snug tracking-tight [text-wrap:balance] line-clamp-2">
                             {book.title}
                         </p>
-                        <p className="mt-1 text-[12px] text-stone-300">{book.author.name}</p>
+                        <p className="mt-1 flex items-center gap-1.5 text-[12px] text-stone-300">
+                            <AuthorAvatar name={book.author.name} id={book.author.id} photoUrl={book.author.photoUrl} size={16} />
+                            {book.author.name}
+                        </p>
                     </div>
                 </>
             ) : (
@@ -147,7 +151,10 @@ export function BookSpineCard({ book, index, onOpen, onEdit, onDelete }: Props) 
                         <p className="font-serif text-xl leading-snug tracking-tight [text-wrap:balance] line-clamp-4">
                             {book.title}
                         </p>
-                        <p className="mt-2 text-[13px] opacity-90">{book.author.name}</p>
+                        <p className="mt-2 flex items-center gap-1.5 text-[13px] opacity-90">
+                            <AuthorAvatar name={book.author.name} id={book.author.id} photoUrl={book.author.photoUrl} size={18} />
+                            {book.author.name}
+                        </p>
                         <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] opacity-70">
                             {book.publishedYear ?? 's. f.'}
                             {book.pages ? ` · ${book.pages} pag.` : ''}

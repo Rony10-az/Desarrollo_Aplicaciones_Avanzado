@@ -36,7 +36,7 @@ export async function PUT(
         }
 
         const body = await request.json();
-        const { name, email, bio, nationality, birthYear } = body;
+        const { name, email, bio, nationality, birthYear, photoUrl } = body;
 
         if (email !== undefined && !emailRegex.test(email)) {
             return NextResponse.json({ error: 'El correo electrónico no tiene un formato válido' }, { status: 400 });
@@ -50,6 +50,7 @@ export async function PUT(
                 ...(bio !== undefined && { bio }),
                 ...(nationality !== undefined && { nationality }),
                 ...(birthYear !== undefined && { birthYear: birthYear ? parseInt(birthYear, 10) : null }),
+                ...(photoUrl !== undefined && { photoUrl: photoUrl?.trim() || null }),
             });
 
         return NextResponse.json(author);

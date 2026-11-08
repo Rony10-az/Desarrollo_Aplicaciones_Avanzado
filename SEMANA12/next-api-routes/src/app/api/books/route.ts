@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     const genre = request.nextUrl.searchParams.get('genre');
 
     let query = db.orm.public.Book.include('author', (author) =>
-        author.select('id', 'name', 'email'),
+        author.select('id', 'name', 'email', 'photoUrl'),
     );
 
     if (genre) {
