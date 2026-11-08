@@ -1,9 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { spineColorFor } from './spineColor';
+import { authorPhotoFor } from './authorPhotos';
 import { StatTile } from './StatTile';
 import { AuthorModal } from './AuthorModal';
 import { BookModal } from './BookModal';
@@ -29,8 +31,11 @@ export function AuthorDetail({ author: initialAuthor, books: initialBooks, stats
     const [editingAuthor, setEditingAuthor] = useState(false);
     const [bookModal, setBookModal] = useState<BookModalState>(null);
 
+    const [photoFailed, setPhotoFailed] = useState(false);
     const spine = spineColorFor(author.name + author.id);
     const initial = author.name.trim()[0]?.toUpperCase() ?? 'A';
+    const photo = authorPhotoFor(author.name);
+    const showPhoto = Boolean(photo) && !photoFailed;
     const authorOptions = [{ id: author.id, name: author.name }];
 
     async function refreshStatsAndBooks() {
@@ -126,19 +131,33 @@ export function AuthorDetail({ author: initialAuthor, books: initialBooks, stats
             <section className="mx-auto w-full max-w-[1400px] px-6 py-8 sm:px-10 lg:px-16">
                 <div className="grid grid-cols-1 gap-8 overflow-hidden rounded-[1.75rem] border border-stone-200/70 bg-white shadow-[0_18px_40px_-28px_rgba(28,25,23,0.35)] md:grid-cols-[0.4fr_0.6fr]">
                     <div
-                        className="relative flex flex-col justify-end gap-3 p-9 sm:p-12"
+                        className="relative flex min-h-[260px] flex-col justify-end gap-3 p-9 sm:p-12"
                         style={{ backgroundColor: spine.bg, color: spine.fg }}
                     >
-                        <div
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay"
-                            style={{
-                                backgroundImage:
-                                    'repeating-linear-gradient(115deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 6px)',
-                            }}
-                        />
-                        <span className="relative font-serif text-6xl">{initial}</span>
-                        <p className="relative mt-2 text-xs uppercase tracking-[0.2em] opacity-60">Autor</p>
+                        {showPhoto ? (
+                            <>
+                                <Image
+                                    src={photo!}
+                                    alt=""
+                                    fill
+                                    sizes="(min-width: 768px) 40vw, 100vw"
+                                    className="object-cover object-top"
+                                    onError={() => setPhotoFailed(true)}
+                                />
+                                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                            </>
+                        ) : (
+                            <div
+                                aria-hidden="true"
+                                className="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay"
+                                style={{
+                                    backgroundImage:
+                                        'repeating-linear-gradient(115deg, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 6px)',
+                                }}
+                            />
+                        )}
+                        {!showPhoto && <span className="relative font-serif text-6xl">{initial}</span>}
+                        <p className={`relative mt-2 text-xs uppercase tracking-[0.2em] ${showPhoto ? 'text-white/70' : 'opacity-60'}`}>Autor</p>
                     </div>
 
                     <div className="flex flex-col justify-center gap-4 p-9 sm:p-12">

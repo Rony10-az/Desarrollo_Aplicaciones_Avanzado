@@ -1,7 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { spineColorFor } from './spineColor';
+import { authorPhotoFor } from './authorPhotos';
 import { BookmarkIcon, EditIcon, TrashIcon, ChevronIcon } from './icons';
 import type { Author } from './types';
 
@@ -13,8 +16,11 @@ type Props = {
 };
 
 export function AuthorCard({ author, index, onEdit, onDelete }: Props) {
+    const [photoFailed, setPhotoFailed] = useState(false);
     const spine = spineColorFor(author.name + author.id);
     const initial = author.name.trim()[0]?.toUpperCase() ?? 'A';
+    const photo = authorPhotoFor(author.name);
+    const showPhoto = Boolean(photo) && !photoFailed;
 
     return (
         <div
@@ -22,16 +28,29 @@ export function AuthorCard({ author, index, onEdit, onDelete }: Props) {
             style={{ animationDelay: `${Math.min(index, 10) * 60}ms` }}
         >
             <div
-                className="relative flex items-start justify-between p-6"
+                className="relative flex aspect-[4/3] items-start justify-between overflow-hidden p-5"
                 style={{ backgroundColor: spine.bg, color: spine.fg }}
             >
-                <span className="font-serif text-4xl">{initial}</span>
-                <div className="flex gap-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
+                {showPhoto && (
+                    <>
+                        <Image
+                            src={photo!}
+                            alt=""
+                            fill
+                            sizes="(min-width: 1280px) 22vw, (min-width: 640px) 45vw, 90vw"
+                            className="object-cover object-top"
+                            onError={() => setPhotoFailed(true)}
+                        />
+                        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
+                    </>
+                )}
+                {!showPhoto && <span className="relative font-serif text-4xl">{initial}</span>}
+                <div className="relative ml-auto flex gap-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
                     <button
                         type="button"
                         aria-label={`Editar ${author.name}`}
                         onClick={() => onEdit(author)}
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition-colors hover:bg-black/35 active:scale-95"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 active:scale-95"
                     >
                         <EditIcon className="h-3.5 w-3.5" />
                     </button>
@@ -39,7 +58,7 @@ export function AuthorCard({ author, index, onEdit, onDelete }: Props) {
                         type="button"
                         aria-label={`Eliminar ${author.name}`}
                         onClick={() => onDelete(author)}
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition-colors hover:bg-red-900/60 active:scale-95"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-red-900/70 active:scale-95"
                     >
                         <TrashIcon className="h-3.5 w-3.5" />
                     </button>
@@ -57,7 +76,7 @@ export function AuthorCard({ author, index, onEdit, onDelete }: Props) {
                     </p>
                 </div>
 
-                <p className="line-clamp-2 flex-1 text-sm leading-relaxed text-stone-500">
+                <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-stone-500">
                     {author.bio || 'Todavia no tiene una biografia registrada.'}
                 </p>
 

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { DashboardHero } from './DashboardHero';
 import { StatTile } from './StatTile';
 import { AuthorCard } from './AuthorCard';
 import { AuthorModal } from './AuthorModal';
@@ -80,19 +81,11 @@ export function AuthorsBoard({ initialAuthors, stats }: { initialAuthors: Author
 
     return (
         <div className="flex flex-1 flex-col bg-stone-50">
-            <section className="border-b border-stone-200/70 bg-white">
-                <div className="mx-auto max-w-[1400px] px-6 py-14 sm:px-10 lg:px-16">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-stone-200 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-stone-500">
-                        Panel de la biblioteca
-                    </span>
-                    <h1 className="mt-5 max-w-2xl font-serif text-4xl leading-[1.05] tracking-tight text-stone-900 md:text-5xl [text-wrap:balance]">
-                        Las manos detras de cada estante.
-                    </h1>
-                    <p className="mt-4 max-w-[58ch] text-base leading-relaxed text-stone-600">
-                        Da de alta autores, corrige sus datos y entra a la coleccion completa de cada uno.
-                    </p>
+            <DashboardHero totalAuthors={stats.totalAuthors} />
 
-                    <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <section className="border-b border-stone-200/70 bg-white">
+                <div className="mx-auto max-w-[1400px] px-6 py-10 sm:px-10 lg:px-16">
+                    <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
                         <StatTile label="Autores" value={stats.totalAuthors} />
                         <StatTile label="Libros" value={stats.totalBooks} />
                         <StatTile label="Paginas catalogadas" value={stats.totalPages.toLocaleString('es-PE')} />
