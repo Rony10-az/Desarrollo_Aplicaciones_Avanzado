@@ -1,9 +1,17 @@
 <p align="center">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white">
   <img alt="Express" src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white">
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white">
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">
   <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white">
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white">
+  <img alt="Prisma" src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white">
   <img alt="JWT" src="https://img.shields.io/badge/JWT-black?style=flat-square&logo=jsonwebtokens&logoColor=white">
+  <img alt="NextAuth.js" src="https://img.shields.io/badge/NextAuth.js-black?style=flat-square">
   <img alt="Render" src="https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white">
+  <img alt="Vercel" src="https://img.shields.io/badge/Vercel-black?style=flat-square&logo=vercel&logoColor=white">
   <img alt="GitHub Actions" src="https://img.shields.io/badge/CI%2FCD-2088FF?style=flat-square&logo=githubactions&logoColor=white">
 </p>
 
@@ -18,26 +26,27 @@
 
 ---
 
-El curso dura **16 semanas**. Este repositorio se actualiza semana a semana con el código y las evidencias de cada entrega: desde Node.js puro hasta APIs en capas, autenticación con JWT y despliegues en la nube con CI/CD.
+El curso dura **16 semanas**. Este repositorio se actualiza semana a semana con el código y las evidencias de cada entrega: desde Node.js puro hasta APIs en capas, autenticación con JWT/NextAuth, aplicaciones Next.js con SSR/SSG/ISR y un proyecto integrador full-stack con despliegue en la nube.
 
 ## 📊 Progreso
 
 ```
-████████████████████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8 / 16 semanas
+█████████████████████████████████████████████████████████████░░░░░░░░░░░░░░  13 / 16 semanas
 ```
 
-| 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09–16 |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
+| 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14–16 |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬜ |
 
 ## 🌐 En producción
 
 | Proyecto | Plataforma | Enlace |
 |---|---|---|
+| **CineStream** (Semana 09) | Vercel | [semana09-cinestream…vercel.app](https://semana09-cinestream-git-main-rony-s-projects10.vercel.app/) |
 | **express-mongo-cloud** (Semana 08) | Render | [express-mongo-cloud-kxvg.onrender.com](https://express-mongo-cloud-kxvg.onrender.com) |
 | **express-mongo-auth** (Semana 07, reempaquetado) | Render | [exprees-mongo-jwt-quintana.onrender.com](https://exprees-mongo-jwt-quintana.onrender.com) |
 
-Cada push a `main` dispara automáticamente un nuevo despliegue vía **GitHub Actions**, sin pasos manuales.
+Cada push a `main` dispara automáticamente un nuevo despliegue vía **GitHub Actions** (semanas 07–08) o Vercel (semana 09), sin pasos manuales.
 
 ## 🗂️ Mapa del repositorio
 
@@ -51,7 +60,13 @@ Cada push a `main` dispara automáticamente un nuevo despliegue vía **GitHub Ac
 ├── 🟢 SEMANA06   Persistencia con MongoDB y Mongoose
 ├── 🟢 SEMANA07   Autenticación y autorización con JWT y roles
 ├── 🟢 SEMANA08   Despliegue en la nube (Render/Vercel) + CI/CD con GitHub Actions
-└── ⚪ SEMANA09–16  Pendientes
+├── 🟢 SEMANA09   Next.js: SSR + CSR consumiendo una API externa (OMDb)
+├── 🟢 SEMANA10   Next.js: SSG + ISR + CSR (Rick and Morty + Pokédex)
+├── 🟢 SEMANA11   Next.js: componentes y estilización (CSS Modules, Tailwind, shadcn/ui)
+├── 🟢 SEMANA12   Next.js: API Routes + Prisma ORM sobre PostgreSQL
+├── 🟢 SEMANA13   Next.js: autenticación con NextAuth.js (Google, GitHub, credenciales)
+├── 🟢 sistema-ventas   Proyecto integrador: Express + Next.js + PostgreSQL + JWT
+└── ⚪ SEMANA14–16  Pendientes
 ```
 
 ## 📚 Laboratorios por semana
@@ -186,6 +201,97 @@ Cada vez que se crea, asigna o cambia el estado de un ticket se genera una notif
 
 </details>
 
+<details>
+<summary><strong>Semana 09 — Next.js: SSR + CSR con una API externa</strong> <code>Next.js · OMDb API</code></summary>
+<br>
+
+**Carpeta:** [SEMANA09/](SEMANA09/) · [README propio](SEMANA09/my-first-project/README.md)
+
+**`my-first-project/`** — **CineStream**, galería de películas y series que combina **SSR** (datos cargados en el servidor) y **CSR** (interacciones en el cliente) consumiendo la [OMDb API](https://www.omdbapi.com).
+
+- Cartelera 3D y sección "En tendencia" con animaciones.
+- Búsqueda de títulos contra la API externa.
+- Desplegado en Vercel (ver tabla de [producción](#-en-producción)).
+
+**Stack:** Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS v4, Axios.
+
+</details>
+
+<details>
+<summary><strong>Semana 10 — Next.js: SSG + ISR + CSR</strong> <code>Next.js · Rick and Morty API · PokéAPI</code></summary>
+<br>
+
+**Carpeta:** [SEMANA10/](SEMANA10/) · [README propio](SEMANA10/next-ssg-isr-app/README.md)
+
+**`next-ssg-isr-app/`** — Guía de los 826 personajes de *Rick and Morty* en cuatro pantallas conectadas (Hero → Portal → Lista → Detalle) usando **SSG** e **ISR**, más una Pokédex como laboratorio clásico de regeneración incremental.
+
+**Stack:** Next.js 16, React 19, TypeScript, Tailwind CSS v4, Motion, Rick and Morty API, PokéAPI.
+
+</details>
+
+<details>
+<summary><strong>Semana 11 — Componentes y estilización</strong> <code>CSS Modules · Tailwind · shadcn/ui</code></summary>
+<br>
+
+**Carpeta:** [SEMANA11/](SEMANA11/) · [README propio](SEMANA11/README.md)
+
+Dos mini-proyectos Next.js que comparan dos formas de construir una librería de componentes:
+
+| Carpeta | Contenido |
+|---|---|
+| `next-components-styling/` | Button, Card, Badge y otros componentes combinando **CSS Modules** (animaciones) y **Tailwind CSS** (layout). |
+| `next-shadcn-ui/` | Dashboard con **shadcn/ui** y un CRUD en memoria con lógica de negocio real. |
+
+**Stack:** Next.js, React, TypeScript, CSS Modules, Tailwind CSS, shadcn/ui.
+
+</details>
+
+<details>
+<summary><strong>Semana 12 — API Routes + Prisma ORM</strong> <code>Prisma · PostgreSQL (Supabase)</code></summary>
+<br>
+
+**Carpeta:** [SEMANA12/](SEMANA12/) · [README propio](SEMANA12/next-api-routes/README.md)
+
+**`next-api-routes/`** — **La Biblioteca**: gestión de autores y libros con **API Routes** de Next.js y **Prisma 8** sobre PostgreSQL (Supabase). Incluye API REST completa (`/api/authors`, `/api/books`, por id y por autor) y una interfaz de 3 rutas (panel, buscador de libros y ficha de autor).
+
+**Stack:** Next.js 16 (Turbopack), React 19, TypeScript, Prisma 8, PostgreSQL (Supabase), Tailwind CSS v4.
+
+</details>
+
+<details open>
+<summary><strong>Semana 13 — Autenticación con NextAuth.js</strong> <code>NextAuth.js · Google · GitHub</code></summary>
+<br>
+
+**Carpeta:** [SEMANA13/](SEMANA13/) · [README propio](SEMANA13/next-auth-app/README.md)
+
+**`next-auth-app/`** — Sistema de autenticación completo con **NextAuth.js**: login con Google, GitHub y credenciales (email/contraseña), registro de usuarios, bloqueo de cuenta por intentos fallidos y protección de rutas del App Router.
+
+**Stack:** Next.js (App Router), NextAuth.js, TypeScript.
+
+</details>
+
+<details open>
+<summary><strong>Proyecto integrador — Sistema de Ventas</strong> <code>Express · Next.js · PostgreSQL · JWT</code></summary>
+<br>
+
+**Carpeta:** [sistema-ventas/](sistema-ventas/) · [README propio](sistema-ventas/README.md)
+
+Proyecto full-stack que reúne lo trabajado en las semanas de backend (API en capas) y frontend (Next.js): un **monolito modular** organizado por dominio (`auth`, `productos`, `clientes`, `ventas`), pensado para poder "graduarse" a microservicios más adelante sin reescribir la lógica interna.
+
+```
+sistema-ventas/
+├── backend/     → API REST con Express (routes → controllers → services → repositories)
+└── frontend/    → Interfaz con Next.js, consumiendo la API vía NEXT_PUBLIC_API_URL
+```
+
+- Autenticación con **JWT** y control de origen con **CORS**.
+- Base de datos **PostgreSQL**, configuración por `.env` en cada carpeta.
+- Rutas simples sin prefijo `/api/` (`/auth`, `/productos`, `/clientes`, `/ventas`).
+
+**Stack:** Express, Next.js, PostgreSQL, JWT, CORS, dotenv, nodemon.
+
+</details>
+
 ## 🧰 Tecnologías por semana
 
 | Semana | Runtime | Framework / Librerías | Persistencia |
@@ -198,6 +304,12 @@ Cada vez que se crea, asigna o cambia el estado de un ticket se genera una notif
 | 06 | Node.js | Express, EJS, Mongoose | MongoDB |
 | 07 | Node.js (ESM) | Express, EJS, Mongoose, JWT, bcrypt | MongoDB Atlas |
 | 08 | Node.js (ESM) | Express, Mongoose | MongoDB Atlas |
+| 09 | Next.js (App Router) | React, TypeScript, Tailwind CSS, Axios | OMDb API (externa) |
+| 10 | Next.js (App Router) | React, TypeScript, Tailwind CSS, Motion | Rick and Morty API, PokéAPI (externas) |
+| 11 | Next.js (App Router) | React, TypeScript, CSS Modules, Tailwind, shadcn/ui | Memoria |
+| 12 | Next.js (App Router) | React, TypeScript, Prisma 8, Tailwind CSS | PostgreSQL (Supabase) |
+| 13 | Next.js (App Router) | React, TypeScript, NextAuth.js | En memoria (credenciales) |
+| sistema-ventas | Node.js + Next.js | Express, JWT, CORS, dotenv | PostgreSQL |
 
 ## ▶️ Cómo ejecutar un proyecto puntual
 
@@ -206,11 +318,12 @@ Cada proyecto con dependencias trae su propio `package.json`:
 ```bash
 cd SEMANAxx/nombre-del-proyecto
 npm install
-npm start        # o: npm run dev (si tiene nodemon)
+npm run dev       # proyectos Next.js
+npm start         # o: npm run dev (si tiene nodemon), en los proyectos con Express
 ```
 
-Los proyectos que usan MongoDB (semanas 06, 07 y 08) requieren un archivo `.env` propio (ver el README de cada proyecto) y una base de datos MongoDB local o en Atlas. Los proyectos de las semanas 01 a 03 no requieren instalación: se ejecutan directamente con `node archivo.js`.
+Los proyectos que usan MongoDB (semanas 06, 07 y 08), PostgreSQL/Prisma (semana 12 y `sistema-ventas`) o proveedores OAuth (semana 13) requieren un archivo `.env` propio (ver el README de cada proyecto). Los proyectos de las semanas 01 a 03 no requieren instalación: se ejecutan directamente con `node archivo.js`.
 
-## 📌 Semanas 09 a 16
+## 📌 Semanas 14 a 16
 
-Pendientes de desarrollo. Se agregarán como `SEMANA09/`, `SEMANA10/`, … siguiendo la misma convención de carpetas y documentación de las semanas anteriores.
+Pendientes de desarrollo. Se agregarán como `SEMANA14/`, `SEMANA15/`, `SEMANA16/`, siguiendo la misma convención de carpetas y documentación de las semanas anteriores.
